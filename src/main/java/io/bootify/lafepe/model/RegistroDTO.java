@@ -21,6 +21,6 @@ public class RegistroDTO {
     @NotNull
     private LocalDate data;
 
-    private Long estoqueId;
+    private Long estoque;
 
 }

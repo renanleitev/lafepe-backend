@@ -43,7 +43,7 @@ public class EstoqueResource {
         return ResponseEntity.ok(estoqueService.getEstoqueByValidadeVencidos());
     }
 
-    @GetMapping("/vencidos/{periodo}")
+    @GetMapping("/validade/{periodo}")
     public ResponseEntity<List<EstoqueDTO>> getEstoqueByValidadePeriodo(@PathVariable(name = "periodo") final Integer periodo) {
         return ResponseEntity.ok(estoqueService.getEstoqueByValidadePeriodo(periodo));
     }

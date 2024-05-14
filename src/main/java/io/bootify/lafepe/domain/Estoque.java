@@ -53,7 +53,7 @@ public class Estoque {
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
-    @OneToMany(mappedBy = "estoqueId")
+    @OneToMany(mappedBy = "estoque")
     private Set<Registro> registro;
 
     @CreatedDate

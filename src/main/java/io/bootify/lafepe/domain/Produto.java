@@ -40,7 +40,7 @@ public class Produto {
     private Double precoUnitario;
 
     @OneToMany(mappedBy = "produto")
-    private Set<Estoque> estoqueId;
+    private Set<Estoque> estoque;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

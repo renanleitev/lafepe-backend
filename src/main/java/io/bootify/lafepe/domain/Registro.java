@@ -42,8 +42,8 @@ public class Registro {
     private LocalDate data;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estoque_id_id")
-    private Estoque estoqueId;
+    @JoinColumn(name = "estoque")
+    private Estoque estoque;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
