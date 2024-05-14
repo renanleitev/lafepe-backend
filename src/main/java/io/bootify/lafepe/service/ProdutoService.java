@@ -25,8 +25,8 @@ public class ProdutoService {
     }
 
     public List<ProdutoDTO> findAll() {
-        final List<Produto> produtoes = produtoRepository.findAll(Sort.by("id"));
-        return produtoes.stream()
+        final List<Produto> produtos = produtoRepository.findAll(Sort.by("id"));
+        return produtos.stream()
                 .map(produto -> mapToDTO(produto, new ProdutoDTO()))
                 .toList();
     }
@@ -35,6 +35,62 @@ public class ProdutoService {
         return produtoRepository.findById(id)
                 .map(produto -> mapToDTO(produto, new ProdutoDTO()))
                 .orElseThrow(NotFoundException::new);
+    }
+
+    public List<ProdutoDTO> getProdutoByNomeLike(final String nome) {
+        final List<Produto> produtos = produtoRepository.findAllByNomeLike(nome);
+        return produtos.stream()
+                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
+                .toList();
+    }
+
+    public List<ProdutoDTO> getProdutoByCodigoLike(final String codigo) {
+        final List<Produto> produtos = produtoRepository.findAllByCodigoLike(codigo);
+        return produtos.stream()
+                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
+                .toList();
+    }
+
+    public List<ProdutoDTO> getProdutoByFabricanteLike(final String fabricante) {
+        final List<Produto> produtos = produtoRepository.findAllByFabricanteLike(fabricante);
+        return produtos.stream()
+                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
+                .toList();
+    }
+
+    public List<ProdutoDTO> getProdutoByPrecoUnitario(final Double precoUnitario) {
+        final List<Produto> produtos = produtoRepository.findAllByPrecoUnitario(precoUnitario);
+        return produtos.stream()
+                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
+                .toList();
+    }
+
+    public List<ProdutoDTO> getProdutoByPrecoUnitarioLessThan(final Double precoUnitario) {
+        final List<Produto> produtos = produtoRepository.findAllByPrecoUnitarioLessThan(precoUnitario);
+        return produtos.stream()
+                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
+                .toList();
+    }
+
+    public List<ProdutoDTO> getProdutoByPrecoUnitarioLessThanOrEqualTo(final Double precoUnitario) {
+        final List<Produto> produtos = produtoRepository.findAllByPrecoUnitarioLessThanOrEqualTo(precoUnitario);
+        return produtos.stream()
+                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
+                .toList();
+    }
+
+    public List<ProdutoDTO> getProdutoByPrecoUnitarioGreaterThan(final Double precoUnitario) {
+        final List<Produto> produtos = produtoRepository.findAllByPrecoUnitarioGreaterThan(precoUnitario);
+        return produtos.stream()
+                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
+                .toList();
+    }
+
+    public List<ProdutoDTO> getProdutoByPrecoUnitarioGreaterThanOrEqualTo(final Double precoUnitario) {
+        final List<Produto> produtos = produtoRepository.findAllByPrecoUnitarioGreaterThanOrEqualTo(precoUnitario);
+        return produtos.stream()
+                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
+                .toList();
     }
 
     public Long create(final ProdutoDTO produtoDTO) {

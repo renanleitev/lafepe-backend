@@ -9,6 +9,8 @@ import io.bootify.lafepe.repos.ProdutoRepository;
 import io.bootify.lafepe.repos.RegistroRepository;
 import io.bootify.lafepe.util.NotFoundException;
 import io.bootify.lafepe.util.ReferencedWarning;
+
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,132 @@ public class EstoqueService {
         return estoqueRepository.findById(id)
                 .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
                 .orElseThrow(NotFoundException::new);
+    }
+
+    public List<EstoqueDTO> getEstoqueByLoteLike(final String lote) {
+        final List<Estoque> estoques = estoqueRepository.findAllByLoteLike(lote);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuantidade(final Integer quantidade) {
+        final List<Estoque> estoques = estoqueRepository.findAllByQuantidade(quantidade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuantidadeLessThan(final Integer quantidade) {
+        final List<Estoque> estoques = estoqueRepository.findAllByQuantidadeLessThan(quantidade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuantidadeLessThanOrEqualTo(final Integer quantidade) {
+        final List<Estoque> estoques= estoqueRepository.findAllByQuantidadeLessThanOrEqualTo(quantidade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuantidadeGreaterThan(final Integer quantidade) {
+        final List<Estoque> estoques = estoqueRepository.findAllByQuantidadeGreaterThan(quantidade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuantidadeGreaterThanOrEqualTo(final Integer quantidade) {
+        final List<Estoque> estoques = estoqueRepository.findAllByQuantidadeGreaterThanOrEqualTo(quantidade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByUnidadeLike(final String unidade) {
+        final List<Estoque> estoques= estoqueRepository.findAllByUnidadeLike(unidade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByValidade(final LocalDate validade) {
+        final List<Estoque> estoques = estoqueRepository.findAllByValidade(validade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByValidadeLessThan(final LocalDate validade) {
+        final List<Estoque> estoques = estoqueRepository.findAllByValidadeLessThan(validade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByValidadeLessThanOrEqualTo(final LocalDate validade) {
+        final List<Estoque> estoques = estoqueRepository.findAllByValidadeLessThanOrEqualTo(validade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByValidadeGreaterThan(final LocalDate validade) {
+        final List<Estoque> estoques = estoqueRepository.findAllByValidadeGreaterThan(validade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByValidadeGreaterThanOrEqualTo(final LocalDate validade) {
+        final List<Estoque> estoques = estoqueRepository.findAllByValidadeGreaterThanOrEqualTo(validade);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuarentena(final Integer quarentena) {
+        final List<Estoque> estoques = estoqueRepository.findAllByQuarentena(quarentena);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuarentenaLessThan(final Integer quarentena) {
+        final List<Estoque> estoques = estoqueRepository.findAllByQuarentenaLessThan(quarentena);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuarentenaLessThanOrEqualTo(final Integer quarentena) {
+        final List<Estoque> estoques = estoqueRepository.findAllByQuarentenaLessThanOrEqualTo(quarentena);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuarentenaGreaterThan(final Integer quarentena) {
+        final List<Estoque> estoques = estoqueRepository.findAllByQuarentenaGreaterThan(quarentena);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByQuarentenaGreaterThanOrEqualTo(final Integer quarentena) {
+        final List<Estoque> estoques = estoqueRepository.findAllByQuarentenaGreaterThanOrEqualTo(quarentena);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByDescricaoLike(final String descricao) {
+        final List<Estoque> estoques = estoqueRepository.findAllByDescricaoLike(descricao);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
     }
 
     public Long create(final EstoqueDTO estoqueDTO) {
