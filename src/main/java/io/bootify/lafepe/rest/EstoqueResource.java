@@ -38,6 +38,16 @@ public class EstoqueResource {
         return ResponseEntity.ok(estoqueService.get(id));
     }
 
+    @GetMapping("/vencidos")
+    public ResponseEntity<List<EstoqueDTO>> getEstoqueByValidadeVencidos() {
+        return ResponseEntity.ok(estoqueService.getEstoqueByValidadeVencidos());
+    }
+
+    @GetMapping("/vencidos/{periodo}")
+    public ResponseEntity<List<EstoqueDTO>> getEstoqueByValidadePeriodo(@PathVariable(name = "periodo") final Integer periodo) {
+        return ResponseEntity.ok(estoqueService.getEstoqueByValidadePeriodo(periodo));
+    }
+
     // GET estoque by query
     @GetMapping("/query")
     public ResponseEntity<List<EstoqueDTO>> getEstoqueByQuery(@RequestParam Map<String, String> customQuery){

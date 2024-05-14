@@ -51,15 +51,15 @@ public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
 
     // Quantidade menor
     @Query("SELECT p FROM Estoque p WHERE p.quarentena < :quarentena")
-    List<Estoque> findAllByQuarentenaLessThan(@Param("quantidade") Integer quarentena);
+    List<Estoque> findAllByQuarentenaLessThan(@Param("quarentena") Integer quarentena);
 
     // Quantidade menor ou igual
     @Query("SELECT p FROM Estoque p WHERE p.quarentena <= :quarentena")
-    List<Estoque> findAllByQuarentenaLessThanOrEqualTo(@Param("quantidade") Integer quarentena);
+    List<Estoque> findAllByQuarentenaLessThanOrEqualTo(@Param("quarentena") Integer quarentena);
 
     // Quantidade maior
     @Query("SELECT p FROM Estoque p WHERE p.quarentena > :quarentena")
-    List<Estoque> findAllByQuarentenaGreaterThan(@Param("quantidade") Integer quarentena);
+    List<Estoque> findAllByQuarentenaGreaterThan(@Param("quarentena") Integer quarentena);
 
     // Quantidade maior ou igual
     @Query("SELECT p FROM Estoque p WHERE p.quarentena >= :quarentena")
@@ -83,6 +83,14 @@ public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
     // Validade maior ou igual
     @Query("SELECT p FROM Estoque p WHERE p.validade >= :validade")
     List<Estoque> findAllByValidadeGreaterThanOrEqualTo(@Param("validade") LocalDate validade);
+
+    // Vencidos
+    @Query("SELECT p FROM Estoque p WHERE p.validade < CURRENT_DATE")
+    List<Estoque> findAllByValidadeVencidos();
+
+    // Validade por mes
+    @Query("SELECT p FROM Estoque p WHERE p.validade BETWEEN CURRENT_DATE AND :dataLimite")
+    List<Estoque> findAllByValidadePeriodo(@Param("dataLimite") LocalDate dataLimite);
 
     // Estoque
     @Query("SELECT p FROM Estoque p WHERE p.descricao LIKE CONCAT('%',:descricao,'%')")

@@ -100,6 +100,21 @@ public class EstoqueService {
                 .toList();
     }
 
+    public List<EstoqueDTO> getEstoqueByValidadeVencidos() {
+        final List<Estoque> estoques = estoqueRepository.findAllByValidadeVencidos();
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueByValidadePeriodo(final Integer periodo) {
+        LocalDate dataLimite = LocalDate.now().plusMonths(periodo);
+        final List<Estoque> estoques = estoqueRepository.findAllByValidadePeriodo(dataLimite);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
     public List<EstoqueDTO> getEstoqueByValidadeLessThan(final LocalDate validade) {
         final List<Estoque> estoques = estoqueRepository.findAllByValidadeLessThan(validade);
         return estoques.stream()

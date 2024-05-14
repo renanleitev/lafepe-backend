@@ -80,17 +80,17 @@ public interface RegistroRepository extends JpaRepository<Registro, Long> {
 
     // Data menor
     @Query("SELECT p FROM Registro p WHERE p.data < :data")
-    List<Registro> findAllByDataLessThan(@Param("validade") LocalDate data);
+    List<Registro> findAllByDataLessThan(@Param("data") LocalDate data);
 
     // Data menor ou igual
     @Query("SELECT p FROM Registro p WHERE p.data <= :data")
-    List<Registro> findAllByDataLessThanOrEqualTo(@Param("validade") LocalDate data);
+    List<Registro> findAllByDataLessThanOrEqualTo(@Param("data") LocalDate data);
 
     // Data maior
     @Query("SELECT p FROM Registro p WHERE p.data > :data")
-    List<Registro> findAllByDataGreaterThan(@Param("validade") LocalDate data);
+    List<Registro> findAllByDataGreaterThan(@Param("data") LocalDate data);
 
     // Data maior ou igual
     @Query("SELECT p FROM Registro p WHERE p.data >= :data")
-    List<Registro> findAllByDataGreaterThanOrEqualTo(@Param("validade") LocalDate data);
+    List<Registro> findAllByDataGreaterThanOrEqualTo(@Param("data") LocalDate data);
 }
