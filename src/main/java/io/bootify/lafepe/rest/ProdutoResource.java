@@ -1,5 +1,6 @@
 package io.bootify.lafepe.rest;
 
+import io.bootify.lafepe.model.EstoqueDTO;
 import io.bootify.lafepe.model.ProdutoDTO;
 import io.bootify.lafepe.service.ProdutoService;
 import io.bootify.lafepe.util.ReferencedException;
@@ -7,17 +8,12 @@ import io.bootify.lafepe.util.ReferencedWarning;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -38,6 +34,42 @@ public class ProdutoResource {
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoDTO> getProduto(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(produtoService.get(id));
+    }
+
+    // GET produto by query
+    @GetMapping("/query")
+    public ResponseEntity<List<ProdutoDTO>> getProdutoByQuery(@RequestParam Map<String, String> customQuery){
+        switch (customQuery.keySet().toString()){
+            case "[precoUnitario, operador]" -> {
+                Double precoUnitario = Double.valueOf(customQuery.get("precoUnitario"));
+                String operador = customQuery.get("operador");
+                List<ProdutoDTO> produtoDTOList = switch (operador) {
+                    case "EqualTo" -> produtoService.getProdutoByPrecoUnitario(precoUnitario);
+                    case "LessThan" -> produtoService.getProdutoByPrecoUnitarioLessThan(precoUnitario);
+                    case "LessThanOrEqualTo" -> produtoService.getProdutoByPrecoUnitarioLessThanOrEqualTo(precoUnitario);
+                    case "GreaterThan" -> produtoService.getProdutoByPrecoUnitarioGreaterThan(precoUnitario);
+                    case "GreaterThanOrEqualTo" -> produtoService.getProdutoByPrecoUnitarioGreaterThanOrEqualTo(precoUnitario);
+                    default -> produtoService.findAll();
+                };
+                return ResponseEntity.ok(produtoDTOList);
+            }
+            case "[nome]" -> {
+                String nome = customQuery.get("nome");
+                List<ProdutoDTO> produtoDTOList = produtoService.getProdutoByNomeLike(nome);
+                return ResponseEntity.ok(produtoDTOList);
+            }
+            case "[codigo]" -> {
+                String codigo = customQuery.get("codigo");
+                List<ProdutoDTO> produtoDTOList = produtoService.getProdutoByCodigoLike(codigo);
+                return ResponseEntity.ok(produtoDTOList);
+            }
+            case "[fabricante]" -> {
+                String fabricante = customQuery.get("fabricante");
+                List<ProdutoDTO> produtoDTOList = produtoService.getProdutoByFabricanteLike(fabricante);
+                return ResponseEntity.ok(produtoDTOList);
+            }
+            default -> { return ResponseEntity.ok(produtoService.findAll()); }
+        }
     }
 
     @PostMapping

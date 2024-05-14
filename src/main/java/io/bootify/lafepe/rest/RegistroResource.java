@@ -1,21 +1,21 @@
 package io.bootify.lafepe.rest;
 
+import io.bootify.lafepe.model.EstoqueDTO;
+import io.bootify.lafepe.model.ProdutoDTO;
 import io.bootify.lafepe.model.RegistroDTO;
 import io.bootify.lafepe.service.RegistroService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -36,6 +36,67 @@ public class RegistroResource {
     @GetMapping("/{id}")
     public ResponseEntity<RegistroDTO> getRegistro(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(registroService.get(id));
+    }
+
+    // GET registro by query
+    @GetMapping("/query")
+    public ResponseEntity<List<RegistroDTO>> getRegistroByQuery(@RequestParam Map<String, String> customQuery){
+        switch (customQuery.keySet().toString()){
+            case "[saldo, operador]" -> {
+                Integer saldo = Integer.valueOf(customQuery.get("saldo"));
+                String operador = customQuery.get("operador");
+                List<RegistroDTO> registroDTOList = switch (operador) {
+                    case "EqualTo" -> registroService.getRegistroBySaldo(saldo);
+                    case "LessThan" -> registroService.getRegistroBySaldoLessThan(saldo);
+                    case "LessThanOrEqualTo" -> registroService.getRegistroBySaldoLessThanOrEqualTo(saldo);
+                    case "GreaterThan" -> registroService.getRegistroBySaldoGreaterThan(saldo);
+                    case "GreaterThanOrEqualTo" -> registroService.getRegistroBySaldoGreaterThanOrEqualTo(saldo);
+                    default -> registroService.findAll();
+                };
+                return ResponseEntity.ok(registroDTOList);
+            }
+            case "[entrada, operador]" -> {
+                Integer entrada = Integer.valueOf(customQuery.get("entrada"));
+                String operador = customQuery.get("operador");
+                List<RegistroDTO> registroDTOList = switch (operador) {
+                    case "EqualTo" -> registroService.getRegistroByEntrada(entrada);
+                    case "LessThan" -> registroService.getRegistroByEntradaLessThan(entrada);
+                    case "LessThanOrEqualTo" -> registroService.getRegistroByEntradaLessThanOrEqualTo(entrada);
+                    case "GreaterThan" -> registroService.getRegistroByEntradaGreaterThan(entrada);
+                    case "GreaterThanOrEqualTo" -> registroService.getRegistroByEntradaGreaterThanOrEqualTo(entrada);
+                    default -> registroService.findAll();
+                };
+                return ResponseEntity.ok(registroDTOList);
+            }
+            case "[saida, operador]" -> {
+                Integer saida = Integer.valueOf(customQuery.get("saida"));
+                String operador = customQuery.get("operador");
+                List<RegistroDTO> registroDTOList = switch (operador) {
+                    case "EqualTo" -> registroService.getRegistroBySaida(saida);
+                    case "LessThan" -> registroService.getRegistroBySaidaLessThan(saida);
+                    case "LessThanOrEqualTo" -> registroService.getRegistroBySaidaLessThanOrEqualTo(saida);
+                    case "GreaterThan" -> registroService.getRegistroBySaidaGreaterThan(saida);
+                    case "GreaterThanOrEqualTo" -> registroService.getRegistroBySaidaGreaterThanOrEqualTo(saida);
+                    default -> registroService.findAll();
+                };
+                return ResponseEntity.ok(registroDTOList);
+            }
+            case "[data, operador]" -> {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate data = LocalDate.parse(customQuery.get("data"), formatter);
+                String operador = customQuery.get("operador");
+                List<RegistroDTO> registroDTOList = switch (operador) {
+                    case "EqualTo" -> registroService.getRegistroByData(data);
+                    case "LessThan" -> registroService.getRegistroByDataLessThan(data);
+                    case "LessThanOrEqualTo" -> registroService.getRegistroByDataLessThanOrEqualTo(data);
+                    case "GreaterThan" -> registroService.getRegistroByDataGreaterThan(data);
+                    case "GreaterThanOrEqualTo" -> registroService.getRegistroByDataGreaterThanOrEqualTo(data);
+                    default -> registroService.findAll();
+                };
+                return ResponseEntity.ok(registroDTOList);
+            }
+            default -> {return ResponseEntity.ok(registroService.findAll()); }
+        }
     }
 
     @PostMapping
