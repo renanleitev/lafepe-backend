@@ -41,8 +41,9 @@ public class Registro {
     @Column(nullable = false)
     private LocalDate data;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estoque")
+    // ManyToOne = Passar o FetchType.EAGER se quiser receber o objeto completo na resposta da API
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "estoque_id")
     private Estoque estoque;
 
     @CreatedDate

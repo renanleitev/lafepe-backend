@@ -210,7 +210,8 @@ public class EstoqueService {
         estoqueDTO.setQuarentena(estoque.getQuarentena());
         estoqueDTO.setValidade(estoque.getValidade());
         estoqueDTO.setDescricao(estoque.getDescricao());
-        estoqueDTO.setProduto(estoque.getProduto() == null ? null : estoque.getProduto().getId());
+        estoqueDTO.setProdutoId(estoque.getProduto() == null ? null : estoque.getProduto().getId());
+        estoqueDTO.setProduto(estoque.getProduto());
         return estoqueDTO;
     }
 
@@ -221,7 +222,7 @@ public class EstoqueService {
         estoque.setQuarentena(estoqueDTO.getQuarentena());
         estoque.setValidade(estoqueDTO.getValidade());
         estoque.setDescricao(estoqueDTO.getDescricao());
-        final Produto produto = estoqueDTO.getProduto() == null ? null : produtoRepository.findById(estoqueDTO.getProduto())
+        final Produto produto = estoqueDTO.getProduto() == null ? null : produtoRepository.findById(estoqueDTO.getProdutoId())
                 .orElseThrow(() -> new NotFoundException("produto not found"));
         estoque.setProduto(produto);
         return estoque;

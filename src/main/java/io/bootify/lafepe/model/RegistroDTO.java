@@ -1,5 +1,6 @@
 package io.bootify.lafepe.model;
 
+import io.bootify.lafepe.domain.Estoque;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -21,6 +22,8 @@ public class RegistroDTO {
     @NotNull
     private LocalDate data;
 
-    private Long estoque;
+    private Long estoqueId;
+
+    private Estoque estoque;
 
 }

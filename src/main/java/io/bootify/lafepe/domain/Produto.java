@@ -1,12 +1,8 @@
 package io.bootify.lafepe.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+
 import java.time.OffsetDateTime;
 import java.util.Set;
 import lombok.Getter;
@@ -39,7 +35,9 @@ public class Produto {
     @Column(nullable = false)
     private Double precoUnitario;
 
+    // Passar o JsonBackReference se quiser receber o objeto completo na resposta da API
     @OneToMany(mappedBy = "produto")
+    @JsonBackReference
     private Set<Estoque> estoque;
 
     @CreatedDate

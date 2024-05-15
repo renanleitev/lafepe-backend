@@ -1,5 +1,6 @@
 package io.bootify.lafepe.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -49,11 +50,14 @@ public class Estoque {
     @Column(length = 500)
     private String descricao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // ManyToOne = Passar o FetchType.EAGER se quiser receber o objeto completo na resposta da API
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
+    // OneToMany = Passar o JsonBackReference se quiser receber o objeto completo na resposta da API
     @OneToMany(mappedBy = "estoque")
+    @JsonBackReference
     private Set<Registro> registro;
 
     @CreatedDate

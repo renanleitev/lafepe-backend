@@ -201,7 +201,8 @@ public class RegistroService {
         registroDTO.setSaida(registro.getSaida());
         registroDTO.setSaldo(registro.getSaldo());
         registroDTO.setData(registro.getData());
-        registroDTO.setEstoque(registro.getEstoque() == null ? null : registro.getEstoque().getId());
+        registroDTO.setEstoqueId(registro.getEstoque() == null ? null : registro.getEstoque().getId());
+        registroDTO.setEstoque(registro.getEstoque());
         return registroDTO;
     }
 
@@ -210,9 +211,9 @@ public class RegistroService {
         registro.setSaida(registroDTO.getSaida());
         registro.setSaldo(registroDTO.getSaldo());
         registro.setData(registroDTO.getData());
-        final Estoque estoqueId = registroDTO.getEstoque() == null ? null : estoqueRepository.findById(registroDTO.getEstoque())
+        final Estoque estoque = registroDTO.getEstoque() == null ? null : estoqueRepository.findById(registroDTO.getEstoqueId())
                 .orElseThrow(() -> new NotFoundException("estoqueId not found"));
-        registro.setEstoque(estoqueId);
+        registro.setEstoque(estoque);
         return registro;
     }
 

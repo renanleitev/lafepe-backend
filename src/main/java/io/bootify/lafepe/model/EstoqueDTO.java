@@ -1,5 +1,6 @@
 package io.bootify.lafepe.model;
 
+import io.bootify.lafepe.domain.Produto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
@@ -33,6 +34,8 @@ public class EstoqueDTO {
     @Size(max = 500)
     private String descricao;
 
-    private Long produto;
+    private Long produtoId;
+
+    private Produto produto;
 
 }
