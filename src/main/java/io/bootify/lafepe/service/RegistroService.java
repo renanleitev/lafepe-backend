@@ -108,41 +108,6 @@ public class RegistroService {
                 .toList();
     }
 
-    public List<RegistroDTO> getRegistroBySaldo(Integer saldo) {
-        final List<Registro> registros = registroRepository.findAllBySaldo(saldo);
-        return registros.stream()
-                .map(registro -> mapToDTO(registro, new RegistroDTO()))
-                .toList();
-    }
-
-    public List<RegistroDTO> getRegistroBySaldoLessThan(Integer saldo) {
-        final List<Registro> registros = registroRepository.findAllBySaldoLessThan(saldo);
-        return registros.stream()
-                .map(registro -> mapToDTO(registro, new RegistroDTO()))
-                .toList();
-    }
-
-    public List<RegistroDTO> getRegistroBySaldoLessThanOrEqualTo(Integer saldo) {
-        final List<Registro> registros = registroRepository.findAllBySaldoLessThanOrEqualTo(saldo);
-        return registros.stream()
-                .map(registro -> mapToDTO(registro, new RegistroDTO()))
-                .toList();
-    }
-
-    public List<RegistroDTO> getRegistroBySaldoGreaterThan(Integer saldo) {
-        final List<Registro> registros = registroRepository.findAllBySaldoGreaterThan(saldo);
-        return registros.stream()
-                .map(registro -> mapToDTO(registro, new RegistroDTO()))
-                .toList();
-    }
-
-    public List<RegistroDTO> getRegistroBySaldoGreaterThanOrEqualTo(Integer saldo) {
-        final List<Registro> registros = registroRepository.findAllBySaldoGreaterThanOrEqualTo(saldo);
-        return registros.stream()
-                .map(registro -> mapToDTO(registro, new RegistroDTO()))
-                .toList();
-    }
-
     public List<RegistroDTO> getRegistroByData(LocalDate data) {
         final List<Registro> registros = registroRepository.findAllByData(data);
         return registros.stream()
@@ -181,10 +146,11 @@ public class RegistroService {
     public Long create(final RegistroDTO registroDTO) {
         final Registro registro = new Registro();
         mapToEntity(registroDTO, registro);
-        // Atualiza a quantidade com o saldo após registro
+        // Atualiza o saldo após registro
         Estoque estoque = registro.getEstoque();
-        estoque.setQuantidade(registro.getSaldo());
-        estoqueRepository.save(registro.getEstoque());
+        Integer saldo = ((registro.getEntrada() + estoque.getSaldoAtual()) - registro.getSaida());
+        estoque.setSaldoAtual(saldo);
+        estoqueRepository.save(estoque);
         return registroRepository.save(registro).getId();
     }
 
@@ -192,10 +158,11 @@ public class RegistroService {
         final Registro registro = registroRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(registroDTO, registro);
-        // Atualiza a quantidade com o saldo após registro
+        // Atualiza o saldo após registro
         Estoque estoque = registro.getEstoque();
-        estoque.setQuantidade(registro.getSaldo());
-        estoqueRepository.save(registro.getEstoque());
+        Integer saldo = ((registro.getEntrada() + estoque.getSaldoAtual()) - registro.getSaida());
+        estoque.setSaldoAtual(saldo);
+        estoqueRepository.save(estoque);
         registroRepository.save(registro);
     }
 
@@ -207,7 +174,6 @@ public class RegistroService {
         registroDTO.setId(registro.getId());
         registroDTO.setEntrada(registro.getEntrada());
         registroDTO.setSaida(registro.getSaida());
-        registroDTO.setSaldo(registro.getSaldo());
         registroDTO.setData(registro.getData());
         registroDTO.setEstoqueId(registro.getEstoque() == null ? null : registro.getEstoque().getId());
         registroDTO.setEstoque(registro.getEstoque());
@@ -217,7 +183,6 @@ public class RegistroService {
     private Registro mapToEntity(final RegistroDTO registroDTO, final Registro registro) {
         registro.setEntrada(registroDTO.getEntrada());
         registro.setSaida(registroDTO.getSaida());
-        registro.setSaldo(registroDTO.getSaldo());
         registro.setData(registroDTO.getData());
         final Estoque estoque = registroDTO.getEstoque() == null ? null : estoqueRepository.findById(registroDTO.getEstoqueId())
                 .orElseThrow(() -> new NotFoundException("estoqueId not found"));

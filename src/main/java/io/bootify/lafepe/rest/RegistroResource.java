@@ -42,19 +42,6 @@ public class RegistroResource {
     @GetMapping("/query")
     public ResponseEntity<List<RegistroDTO>> getRegistroByQuery(@RequestParam Map<String, String> customQuery){
         switch (customQuery.keySet().toString()){
-            case "[saldo, operador]" -> {
-                Integer saldo = Integer.valueOf(customQuery.get("saldo"));
-                String operador = customQuery.get("operador");
-                List<RegistroDTO> registroDTOList = switch (operador) {
-                    case "EqualTo" -> registroService.getRegistroBySaldo(saldo);
-                    case "LessThan" -> registroService.getRegistroBySaldoLessThan(saldo);
-                    case "LessThanOrEqualTo" -> registroService.getRegistroBySaldoLessThanOrEqualTo(saldo);
-                    case "GreaterThan" -> registroService.getRegistroBySaldoGreaterThan(saldo);
-                    case "GreaterThanOrEqualTo" -> registroService.getRegistroBySaldoGreaterThanOrEqualTo(saldo);
-                    default -> registroService.findAll();
-                };
-                return ResponseEntity.ok(registroDTOList);
-            }
             case "[entrada, operador]" -> {
                 Integer entrada = Integer.valueOf(customQuery.get("entrada"));
                 String operador = customQuery.get("operador");

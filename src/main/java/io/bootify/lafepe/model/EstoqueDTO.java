@@ -1,6 +1,7 @@
 package io.bootify.lafepe.model;
 
 import io.bootify.lafepe.domain.Produto;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
@@ -27,6 +28,12 @@ public class EstoqueDTO {
 
     @NotNull
     private Integer quarentena;
+
+    @NotNull
+    private Integer saldoOriginal;
+
+    @NotNull
+    private Integer saldoAtual;
 
     @NotNull
     private LocalDate validade;

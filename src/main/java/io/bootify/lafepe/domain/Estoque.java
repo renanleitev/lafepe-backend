@@ -41,6 +41,12 @@ public class Estoque {
     @Column(nullable = false)
     private String unidade;
 
+    @Column
+    private Integer saldoOriginal;
+
+    @Column
+    private Integer saldoAtual;
+
     @Column(nullable = false)
     private Integer quarentena;
 

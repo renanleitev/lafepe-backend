@@ -35,9 +35,6 @@ public class Registro {
     @Column
     private Integer saida;
 
-    @Column
-    private Integer saldo;
-
     @Column(nullable = false)
     private LocalDate data;
 

@@ -231,6 +231,8 @@ public class LafepeApplication implements CommandLineRunner {
                 estoque.setQuantidade(quantidadeLista[i]);
                 estoque.setUnidade(unidadeLista[i]);
                 estoque.setQuarentena(quarentenaLista[i]);
+                estoque.setSaldoOriginal(saldoLista[i]);
+                estoque.setSaldoAtual(saldoLista[i]);
                 estoque.setValidade(validadeLista[i]);
                 estoque.setDescricao(descricaoLista[i]);
                 estoque.setProduto(produto);
@@ -239,7 +241,6 @@ public class LafepeApplication implements CommandLineRunner {
                 Registro registro = new Registro();
                 registro.setEntrada(entradaLista[i]);
                 registro.setSaida(saidaLista[i]);
-                registro.setSaldo(saldoLista[i]);
                 registro.setData(dataLista[i]);
                 registro.setEstoque(estoque);
                 databaseRegistro.save(registro);

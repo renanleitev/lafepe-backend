@@ -2,8 +2,6 @@ package io.bootify.lafepe.repos;
 
 import io.bootify.lafepe.domain.Estoque;
 import io.bootify.lafepe.domain.Produto;
-import io.bootify.lafepe.domain.Registro;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -64,6 +62,44 @@ public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
     // Quantidade maior ou igual
     @Query("SELECT p FROM Estoque p WHERE p.quarentena >= :quarentena")
     List<Estoque> findAllByQuarentenaGreaterThanOrEqualTo(@Param("quarentena") Integer quarentena);
+
+    // Saldo original
+    List<Estoque> findAllBySaldoOriginal(@Param("saldoOriginal") Integer saldoOriginal);
+
+    // Saldo original menor
+    @Query("SELECT p FROM Estoque p WHERE p.saldoOriginal < :saldoOriginal")
+    List<Estoque> findAllBySaldoOriginalLessThan(@Param("saldoOriginal") Integer saldoOriginal);
+
+    // Saldo original menor ou igual
+    @Query("SELECT p FROM Estoque p WHERE p.saldoOriginal <= :saldoOriginal")
+    List<Estoque> findAllBySaldoOriginalLessThanOrEqualTo(@Param("saldoOriginal") Integer saldoOriginal);
+
+    // Saldo original maior
+    @Query("SELECT p FROM Estoque p WHERE p.saldoOriginal > :saldoOriginal")
+    List<Estoque> findAllBySaldoOriginalGreaterThan(@Param("saldo") Integer saldoOriginal);
+
+    // Saldo maior ou igual
+    @Query("SELECT p FROM Estoque p WHERE p.saldoOriginal >= :saldoOriginal")
+    List<Estoque> findAllBySaldoOriginalGreaterThanOrEqualTo(@Param("saldo") Integer saldo);
+
+    // Saldo atual
+    List<Estoque> findAllBySaldoAtual(@Param("saldoAtual") Integer saldoAtual);
+
+    // Saldo atual menor
+    @Query("SELECT p FROM Estoque p WHERE p.saldoAtual < :saldoAtual")
+    List<Estoque> findAllBySaldoAtualLessThan(@Param("saldoAtual") Integer saldoAtual);
+
+    // Saldo atual menor ou igual
+    @Query("SELECT p FROM Estoque p WHERE p.saldoAtual <= :saldoAtual")
+    List<Estoque> findAllBySaldoAtualLessThanOrEqualTo(@Param("saldoAtual") Integer saldoAtual);
+
+    // Saldo atual maior
+    @Query("SELECT p FROM Estoque p WHERE p.saldoAtual > :saldoAtual")
+    List<Estoque> findAllBySaldoAtualGreaterThan(@Param("saldoAtual") Integer saldoAtual);
+
+    // Saldo atual maior ou igual
+    @Query("SELECT p FROM Estoque p WHERE p.saldoAtual >= :saldoAtual")
+    List<Estoque> findAllBySaldoAtualGreaterThanOrEqualTo(@Param("saldoAtual") Integer saldoAtual);
 
     // Validade exata
     List<Estoque> findAllByValidade(LocalDate validade);

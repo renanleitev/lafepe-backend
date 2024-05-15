@@ -143,6 +143,76 @@ public class EstoqueService {
                 .toList();
     }
 
+    public List<EstoqueDTO> getEstoqueBySaldoOriginal(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoOriginal(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueBySaldoOriginalLessThan(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoOriginalLessThan(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueBySaldoOriginalLessThanOrEqualTo(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoOriginalLessThanOrEqualTo(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueBySaldoOriginalGreaterThan(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoOriginalGreaterThan(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueBySaldoOriginalGreaterThanOrEqualTo(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoOriginalGreaterThanOrEqualTo(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueBySaldoAtual(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoAtual(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueBySaldoAtualLessThan(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoAtualLessThan(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueBySaldoAtualLessThanOrEqualTo(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoAtualLessThanOrEqualTo(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueBySaldoAtualGreaterThan(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoAtualGreaterThan(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
+    public List<EstoqueDTO> getEstoqueBySaldoAtualGreaterThanOrEqualTo(final Integer saldo) {
+        final List<Estoque> estoques = estoqueRepository.findAllBySaldoAtualGreaterThanOrEqualTo(saldo);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
     public List<EstoqueDTO> getEstoqueByQuarentena(final Integer quarentena) {
         final List<Estoque> estoques = estoqueRepository.findAllByQuarentena(quarentena);
         return estoques.stream()
@@ -208,6 +278,8 @@ public class EstoqueService {
         estoqueDTO.setQuantidade(estoque.getQuantidade());
         estoqueDTO.setUnidade(estoque.getUnidade());
         estoqueDTO.setQuarentena(estoque.getQuarentena());
+        estoqueDTO.setSaldoAtual(estoque.getSaldoAtual());
+        estoqueDTO.setSaldoOriginal(estoque.getSaldoOriginal());
         estoqueDTO.setValidade(estoque.getValidade());
         estoqueDTO.setDescricao(estoque.getDescricao());
         estoqueDTO.setProdutoId(estoque.getProduto() == null ? null : estoque.getProduto().getId());
@@ -220,6 +292,8 @@ public class EstoqueService {
         estoque.setQuantidade(estoqueDTO.getQuantidade());
         estoque.setUnidade(estoqueDTO.getUnidade());
         estoque.setQuarentena(estoqueDTO.getQuarentena());
+        estoque.setSaldoAtual(estoqueDTO.getSaldoAtual());
+        estoque.setSaldoOriginal(estoqueDTO.getSaldoOriginal());
         estoque.setValidade(estoqueDTO.getValidade());
         estoque.setDescricao(estoqueDTO.getDescricao());
         final Produto produto = estoqueDTO.getProduto() == null ? null : produtoRepository.findById(estoqueDTO.getProdutoId())

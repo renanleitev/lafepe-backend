@@ -1,6 +1,7 @@
 package io.bootify.lafepe.rest;
 
 import io.bootify.lafepe.model.EstoqueDTO;
+import io.bootify.lafepe.model.RegistroDTO;
 import io.bootify.lafepe.service.EstoqueService;
 import io.bootify.lafepe.util.ReferencedException;
 import io.bootify.lafepe.util.ReferencedWarning;
@@ -38,7 +39,7 @@ public class EstoqueResource {
         return ResponseEntity.ok(estoqueService.get(id));
     }
 
-    @GetMapping("/vencidos")
+    @GetMapping("/validade/vencidos")
     public ResponseEntity<List<EstoqueDTO>> getEstoqueByValidadeVencidos() {
         return ResponseEntity.ok(estoqueService.getEstoqueByValidadeVencidos());
     }
@@ -52,6 +53,32 @@ public class EstoqueResource {
     @GetMapping("/query")
     public ResponseEntity<List<EstoqueDTO>> getEstoqueByQuery(@RequestParam Map<String, String> customQuery){
         switch (customQuery.keySet().toString()){
+            case "[saldoOriginal, operador]" -> {
+                Integer saldo = Integer.valueOf(customQuery.get("saldo"));
+                String operador = customQuery.get("operador");
+                List<EstoqueDTO> estoqueDTOList = switch (operador) {
+                    case "EqualTo" -> estoqueService.getEstoqueBySaldoOriginal(saldo);
+                    case "LessThan" -> estoqueService.getEstoqueBySaldoOriginalLessThan(saldo);
+                    case "LessThanOrEqualTo" -> estoqueService.getEstoqueBySaldoOriginalLessThanOrEqualTo(saldo);
+                    case "GreaterThan" -> estoqueService.getEstoqueBySaldoOriginalGreaterThan(saldo);
+                    case "GreaterThanOrEqualTo" -> estoqueService.getEstoqueBySaldoOriginalGreaterThanOrEqualTo(saldo);
+                    default -> estoqueService.findAll();
+                };
+                return ResponseEntity.ok(estoqueDTOList);
+            }
+            case "[saldoAtual, operador]" -> {
+                Integer saldo = Integer.valueOf(customQuery.get("saldo"));
+                String operador = customQuery.get("operador");
+                List<EstoqueDTO> estoqueDTOList = switch (operador) {
+                    case "EqualTo" -> estoqueService.getEstoqueBySaldoAtual(saldo);
+                    case "LessThan" -> estoqueService.getEstoqueBySaldoAtualLessThan(saldo);
+                    case "LessThanOrEqualTo" -> estoqueService.getEstoqueBySaldoAtualLessThanOrEqualTo(saldo);
+                    case "GreaterThan" -> estoqueService.getEstoqueBySaldoAtualGreaterThan(saldo);
+                    case "GreaterThanOrEqualTo" -> estoqueService.getEstoqueBySaldoAtualGreaterThanOrEqualTo(saldo);
+                    default -> estoqueService.findAll();
+                };
+                return ResponseEntity.ok(estoqueDTOList);
+            }
             case "[quantidade, operador]" -> {
                 Integer quantidade = Integer.valueOf(customQuery.get("quantidade"));
                 String operador = customQuery.get("operador");

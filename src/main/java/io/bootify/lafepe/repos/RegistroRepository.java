@@ -56,25 +56,6 @@ public interface RegistroRepository extends JpaRepository<Registro, Long> {
     @Query("SELECT p FROM Registro p WHERE p.saida >= :saida")
     List<Registro> findAllBySaidaGreaterThanOrEqualTo(@Param("saida") Integer saida);
 
-    // Saldo
-    List<Registro> findAllBySaldo(@Param("saldo") Integer saldo);
-
-    // Saldo menor
-    @Query("SELECT p FROM Registro p WHERE p.saldo < :saldo")
-    List<Registro> findAllBySaldoLessThan(@Param("saldo") Integer saldo);
-
-    // Saldo menor ou igual
-    @Query("SELECT p FROM Registro p WHERE p.saldo <= :saldo")
-    List<Registro> findAllBySaldoLessThanOrEqualTo(@Param("saldo") Integer saldo);
-
-    // Saldo maior
-    @Query("SELECT p FROM Registro p WHERE p.saldo > :saldo")
-    List<Registro> findAllBySaldoGreaterThan(@Param("saldo") Integer saldo);
-
-    // Saldo maior ou igual
-    @Query("SELECT p FROM Registro p WHERE p.saldo >= :saldo")
-    List<Registro> findAllBySaldoGreaterThanOrEqualTo(@Param("saldo") Integer saldo);
-
     // Data
     List<Registro> findAllByData(LocalDate data);
 

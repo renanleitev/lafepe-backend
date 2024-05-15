@@ -17,8 +17,6 @@ public class RegistroDTO {
 
     private Integer saida;
 
-    private Integer saldo;
-
     @NotNull
     private LocalDate data;
 
