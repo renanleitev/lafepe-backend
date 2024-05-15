@@ -181,6 +181,10 @@ public class RegistroService {
     public Long create(final RegistroDTO registroDTO) {
         final Registro registro = new Registro();
         mapToEntity(registroDTO, registro);
+        // Atualiza a quantidade com o saldo após registro
+        Estoque estoque = registro.getEstoque();
+        estoque.setQuantidade(registro.getSaldo());
+        estoqueRepository.save(registro.getEstoque());
         return registroRepository.save(registro).getId();
     }
 
@@ -188,6 +192,10 @@ public class RegistroService {
         final Registro registro = registroRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(registroDTO, registro);
+        // Atualiza a quantidade com o saldo após registro
+        Estoque estoque = registro.getEstoque();
+        estoque.setQuantidade(registro.getSaldo());
+        estoqueRepository.save(registro.getEstoque());
         registroRepository.save(registro);
     }
 
