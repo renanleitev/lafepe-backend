@@ -1,43 +1,75 @@
 # Lafepe
 
-This app was created with Bootify.io - tips on working with the code [can be found here](https://bootify.io/next-steps/).
-Feel free to contact us for further questions.
+Back end do projeto Lafepe para cadastro e controle de estoque de produtos e medicamentos.
 
-## Development
+## Requisitos
 
-Update your local database connection in `application.yml` or create your own `application-local.yml` file to override
-settings for development.
+1. Git
+2. Java JDK 17
+3. MySQL Server (>= v8.3)
+4. MySQL Workbench
+5. Docker (opcional)
 
-During development it is recommended to use the profile `local`. In IntelliJ `-Dspring.profiles.active=local` can be
-added in the VM options of the Run Configuration after enabling this property in "Modify options".
+## Instalação
 
-Lombok must be supported by your IDE. For IntelliJ install the Lombok plugin and enable annotation processing -
-[learn more](https://bootify.io/next-steps/spring-boot-with-lombok.html).
-
-After starting the application it is accessible under `localhost:8080`.
-
-## Build
-
-The application can be built using the following command:
+Clone o repositório do projeto para a sua máquina local
 
 ```
-mvnw clean package
+git clone https://github.com/renanleitev/lafepe-backend
 ```
 
-Start your application with the following command - here with the profile `production`:
+Crie um banco de dados (database) usando o MySQL Workbench com o nome `lafepe`
+
+Vá até o diretório do projeto e rode/execute o arquivo `LafepeApplication` OU rode/execute com o profile `production`:
 
 ```
 java -Dspring.profiles.active=production -jar ./target/lafepe-0.0.1-SNAPSHOT.jar
 ```
 
-If required, a Docker image can be created with the Spring Boot plugin. Add `SPRING_PROFILES_ACTIVE=production` as
-environment variable when running the container.
+Acesse do seu navegador o seguinte endereço:
 
 ```
-mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=io.bootify/lafepe
+http://localhost:8080/
 ```
 
-## Further readings
+## Swagger
+
+Para acessar informações sobre a API, acesse o seguinte endereço do seu navegador:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+## Docker
+
+Para fazer o build da imagem docker, rode/execute o comando em seu terminal:
+
+```
+docker build -t lafepe:v1 .
+```
+
+Para rodar o container docker, rode/execute o comando em seu terminal:
+
+```
+docker run -p 8080:80 lafepe:v1
+```
+
+Acesse do seu navegador o seguinte endereço:
+
+```
+http://localhost:8080/
+```
+
+## Equipe
+
+1. Flávio Raposo
+2. José Adeilton
+3. João Pedro Marinho
+4. Renan Leite Vieira
+5. Rian Vinicius
+6. Robério José
+
+## Referências
 
 * [Maven docs](https://maven.apache.org/guides/index.html)  
 * [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)  
