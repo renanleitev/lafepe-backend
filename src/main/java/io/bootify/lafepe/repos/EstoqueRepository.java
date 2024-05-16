@@ -14,6 +14,8 @@ public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
 
     Estoque findFirstByProduto(Produto produto);
 
+    List<Estoque> findAllByProdutoId(Long produtoId);
+
     // LIKE = Mais lento (não procura por índice)
     // Pode colocar pageable como segundo argumento, caso queira filtrar por página
 

@@ -255,6 +255,13 @@ public class EstoqueService {
                 .toList();
     }
 
+    public List<EstoqueDTO> getEstoqueByProdutoId(final Long produtoId) {
+        final List<Estoque> estoques = estoqueRepository.findAllByProdutoId(produtoId);
+        return estoques.stream()
+                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
+                .toList();
+    }
+
     public Long create(final EstoqueDTO estoqueDTO) {
         final Estoque estoque = new Estoque();
         mapToEntity(estoqueDTO, estoque);

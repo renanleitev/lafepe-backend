@@ -73,6 +73,13 @@ public class RegistroService {
                 .toList();
     }
 
+    public List<RegistroDTO> getRegistroByEstoqueId(Long estoqueId) {
+        final List<Registro> registros = registroRepository.findAllByEstoqueId(estoqueId);
+        return registros.stream()
+                .map(registro -> mapToDTO(registro, new RegistroDTO()))
+                .toList();
+    }
+
     public Long create(final RegistroDTO registroDTO) {
         final Registro registro = new Registro();
         mapToEntity(registroDTO, registro);

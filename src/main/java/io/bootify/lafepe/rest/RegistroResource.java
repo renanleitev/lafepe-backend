@@ -38,6 +38,11 @@ public class RegistroResource {
         return ResponseEntity.ok(registroService.get(id));
     }
 
+    @GetMapping("/estoque/{id}")
+    public ResponseEntity<List<RegistroDTO>> getRegistroByEstoqueId(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(registroService.getRegistroByEstoqueId(id));
+    }
+
     // GET registro by query
     @GetMapping("/query")
     public ResponseEntity<List<RegistroDTO>> getRegistroByQuery(@RequestParam Map<String, String> customQuery){
