@@ -200,7 +200,7 @@ public class LafepeApplication implements CommandLineRunner {
         Integer[] saldoLista = new Integer[10];
 
         for(int i = 0; i < quantidadeLista.length; i++) {
-            saldoLista[i] = ((quantidadeLista[i] + quarentenaLista[i] + entradaLista[i]) - saidaLista[i]);
+            saldoLista[i] = quantidadeLista[i] + quarentenaLista[i];
         }
 
         LocalDate[] dataLista = {
@@ -239,8 +239,14 @@ public class LafepeApplication implements CommandLineRunner {
                 databaseEstoque.save(estoque);
                 // Registro
                 Registro registro = new Registro();
-                registro.setEntrada(entradaLista[i]);
-                registro.setSaida(saidaLista[i]);
+                registro.setEntradaQuarentena(entradaLista[i]);
+                registro.setSaidaQuarentena(saidaLista[i]);
+                registro.setEntradaQuantidade(entradaLista[i]);
+                registro.setSaidaQuantidade(saidaLista[i]);
+                registro.setSaldoQuarentenaInicial(quarentenaLista[i]);
+                registro.setSaldoQuarentenaFinal((quarentenaLista[i] + entradaLista[i]) - saidaLista[i]);
+                registro.setSaldoQuantidadeInicial(quantidadeLista[i]);
+                registro.setSaldoQuantidadeFinal((quantidadeLista[i] + entradaLista[i]) - saidaLista[i]);
                 registro.setData(dataLista[i]);
                 registro.setEstoque(estoque);
                 databaseRegistro.save(registro);

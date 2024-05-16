@@ -1,6 +1,7 @@
 package io.bootify.lafepe.model;
 
 import io.bootify.lafepe.domain.Estoque;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -13,9 +14,25 @@ public class RegistroDTO {
 
     private Long id;
 
-    private Integer entrada;
+    @NotNull
+    private Integer entradaQuarentena;
 
-    private Integer saida;
+    @NotNull
+    private Integer saidaQuarentena;
+
+    @NotNull
+    private Integer entradaQuantidade;
+
+    @NotNull
+    private Integer saidaQuantidade;
+
+    private Integer saldoQuarentenaInicial;
+
+    private Integer saldoQuarentenaFinal;
+
+    private Integer saldoQuantidadeInicial;
+
+    private Integer saldoQuantidadeFinal;
 
     @NotNull
     private LocalDate data;

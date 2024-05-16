@@ -30,10 +30,28 @@ public class Registro {
     private Long id;
 
     @Column
-    private Integer entrada;
+    private Integer entradaQuarentena;
 
     @Column
-    private Integer saida;
+    private Integer saidaQuarentena;
+
+    @Column
+    private Integer entradaQuantidade;
+
+    @Column
+    private Integer saidaQuantidade;
+
+    @Column
+    private Integer saldoQuarentenaInicial;
+
+    @Column
+    private Integer saldoQuarentenaFinal;
+
+    @Column
+    private Integer saldoQuantidadeInicial;
+
+    @Column
+    private Integer saldoQuantidadeFinal;
 
     @Column(nullable = false)
     private LocalDate data;

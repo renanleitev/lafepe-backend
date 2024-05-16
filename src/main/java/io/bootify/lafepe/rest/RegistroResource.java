@@ -42,32 +42,6 @@ public class RegistroResource {
     @GetMapping("/query")
     public ResponseEntity<List<RegistroDTO>> getRegistroByQuery(@RequestParam Map<String, String> customQuery){
         switch (customQuery.keySet().toString()){
-            case "[entrada, operador]" -> {
-                Integer entrada = Integer.valueOf(customQuery.get("entrada"));
-                String operador = customQuery.get("operador");
-                List<RegistroDTO> registroDTOList = switch (operador) {
-                    case "EqualTo" -> registroService.getRegistroByEntrada(entrada);
-                    case "LessThan" -> registroService.getRegistroByEntradaLessThan(entrada);
-                    case "LessThanOrEqualTo" -> registroService.getRegistroByEntradaLessThanOrEqualTo(entrada);
-                    case "GreaterThan" -> registroService.getRegistroByEntradaGreaterThan(entrada);
-                    case "GreaterThanOrEqualTo" -> registroService.getRegistroByEntradaGreaterThanOrEqualTo(entrada);
-                    default -> registroService.findAll();
-                };
-                return ResponseEntity.ok(registroDTOList);
-            }
-            case "[saida, operador]" -> {
-                Integer saida = Integer.valueOf(customQuery.get("saida"));
-                String operador = customQuery.get("operador");
-                List<RegistroDTO> registroDTOList = switch (operador) {
-                    case "EqualTo" -> registroService.getRegistroBySaida(saida);
-                    case "LessThan" -> registroService.getRegistroBySaidaLessThan(saida);
-                    case "LessThanOrEqualTo" -> registroService.getRegistroBySaidaLessThanOrEqualTo(saida);
-                    case "GreaterThan" -> registroService.getRegistroBySaidaGreaterThan(saida);
-                    case "GreaterThanOrEqualTo" -> registroService.getRegistroBySaidaGreaterThanOrEqualTo(saida);
-                    default -> registroService.findAll();
-                };
-                return ResponseEntity.ok(registroDTOList);
-            }
             case "[data, operador]" -> {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate data = LocalDate.parse(customQuery.get("data"), formatter);
