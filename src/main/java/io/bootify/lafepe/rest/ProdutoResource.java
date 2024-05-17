@@ -16,6 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = {
+        "Authorization",
+        "Origin",
+        "x-total-pages",
+        "x-total-count",
+})
 @RestController
 @RequestMapping(value = "/api/produtos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProdutoResource {
