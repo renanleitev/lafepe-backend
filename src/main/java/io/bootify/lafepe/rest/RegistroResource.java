@@ -53,6 +53,11 @@ public class RegistroResource {
     @GetMapping("/query")
     public ResponseEntity<List<RegistroDTO>> getRegistroByQuery(@RequestParam Map<String, String> customQuery){
         switch (customQuery.keySet().toString()){
+            case "[lote]" -> {
+                String lote = customQuery.get("lote");
+                List<RegistroDTO> registroDTOList = registroService.getRegistroByEstoqueLote(lote);
+                return ResponseEntity.ok(registroDTOList);
+            }
             case "[data, operador]" -> {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate data = LocalDate.parse(customQuery.get("data"), formatter);

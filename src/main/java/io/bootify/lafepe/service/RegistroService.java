@@ -80,6 +80,13 @@ public class RegistroService {
                 .toList();
     }
 
+    public List<RegistroDTO> getRegistroByEstoqueLote(String lote) {
+        final List<Registro> registros = registroRepository.findAllByEstoqueLote(lote);
+        return registros.stream()
+                .map(registro -> mapToDTO(registro, new RegistroDTO()))
+                .toList();
+    }
+
     public Long create(final RegistroDTO registroDTO) {
         final Registro registro = new Registro();
         mapToEntity(registroDTO, registro);

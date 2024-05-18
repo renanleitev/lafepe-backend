@@ -16,6 +16,8 @@ public interface RegistroRepository extends JpaRepository<Registro, Long> {
 
     List<Registro> findAllByEstoqueId(Long estoqueId);
 
+    List<Registro> findAllByEstoqueLote(String lote);
+
     // Data
     List<Registro> findAllByData(LocalDate data);
 
