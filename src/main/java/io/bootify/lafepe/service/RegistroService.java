@@ -110,13 +110,18 @@ public class RegistroService {
     public void update(final Long id, final RegistroDTO registroDTO) {
         final Registro registro = registroRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
+        // Adicionar/remover do saldo apenas o que foi adicionado/removido em excesso
+        Integer entradaQuarentena = registroDTO.getEntradaQuarentena() - registro.getEntradaQuarentena();
+        Integer saidaQuarentena = registroDTO.getSaidaQuarentena() - registro.getSaidaQuarentena();
+        Integer entradaQuantidade = registroDTO.getEntradaQuantidade() - registro.getEntradaQuantidade();
+        Integer saidaQuantidade = registroDTO.getSaidaQuantidade() - registro.getSaidaQuantidade();
         mapToEntity(registroDTO, registro);
         // Atualiza o saldo após registro
         Estoque estoque = registro.getEstoque();
         Integer quantidadeInicial = estoque.getQuantidade();
-        Integer quantidadeFinal = (quantidadeInicial + registro.getEntradaQuantidade()) - registro.getSaidaQuantidade();
+        Integer quantidadeFinal = (quantidadeInicial + entradaQuantidade) - saidaQuantidade;
         Integer quarentenaInicial = estoque.getQuarentena();
-        Integer quarentenaFinal = (quarentenaInicial + registro.getEntradaQuarentena()) - registro.getSaidaQuarentena();
+        Integer quarentenaFinal = (quarentenaInicial + entradaQuarentena) - saidaQuarentena;
         estoque.setQuantidade(quantidadeFinal);
         estoque.setQuarentena(quarentenaFinal);
         estoque.setSaldoAtual(quantidadeFinal + quarentenaFinal);
