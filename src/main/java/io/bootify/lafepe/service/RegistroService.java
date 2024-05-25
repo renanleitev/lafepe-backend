@@ -9,6 +9,8 @@ import io.bootify.lafepe.util.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -85,6 +87,46 @@ public class RegistroService {
         return registros.stream()
                 .map(registro -> mapToDTO(registro, new RegistroDTO()))
                 .toList();
+    }
+
+    public Integer getRegistroEntradaQuarentena(LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Registro> registrosList = registroRepository.findAllByDataEntreDatas(dataInicio, dataLimite);
+        Integer totalEntradaQuarentena = 0;
+        for (Registro registro : registrosList) {
+            Integer entradaQuarentena = registro.getEntradaQuarentena();
+            totalEntradaQuarentena += entradaQuarentena;
+        }
+        return totalEntradaQuarentena;
+    }
+
+    public Integer getRegistroSaidaQuarentena(LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Registro> registrosList = registroRepository.findAllByDataEntreDatas(dataInicio, dataLimite);
+        Integer totalSaidaQuarentena = 0;
+        for (Registro registro : registrosList) {
+            Integer saidaQuarentena = registro.getSaidaQuarentena();
+            totalSaidaQuarentena += saidaQuarentena;
+        }
+        return totalSaidaQuarentena;
+    }
+
+    public Integer getRegistroEntradaQuantidade(LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Registro> registrosList = registroRepository.findAllByDataEntreDatas(dataInicio, dataLimite);
+        Integer totalEntradaQuantidade = 0;
+        for (Registro registro : registrosList) {
+            Integer entradaQuantidade = registro.getEntradaQuantidade();
+            totalEntradaQuantidade += entradaQuantidade;
+        }
+        return totalEntradaQuantidade;
+    }
+
+    public Integer getRegistroSaidaQuantidade(LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Registro> registrosList = registroRepository.findAllByDataEntreDatas(dataInicio, dataLimite);
+        Integer totalSaidaQuantidade = 0;
+        for (Registro registro : registrosList) {
+            Integer saodaQuantidade = registro.getSaidaQuantidade();
+            totalSaidaQuantidade += saodaQuantidade;
+        }
+        return totalSaidaQuantidade;
     }
 
     public Long create(final RegistroDTO registroDTO) {

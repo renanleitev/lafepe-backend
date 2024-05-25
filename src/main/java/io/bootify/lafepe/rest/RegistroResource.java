@@ -8,9 +8,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -74,6 +74,174 @@ public class RegistroResource {
             }
             default -> {return ResponseEntity.ok(registroService.findAll()); }
         }
+    }
+
+    @GetMapping("/quarentena/entrada/periodo/{dataInicio}/{dataLimite}")
+    public ResponseEntity<List<Integer>>
+    getEntradaQuarentenaPeriodoEntreDatas(
+            @PathVariable(name = "dataInicio") final LocalDate dataInicio,
+            @PathVariable(name = "dataLimite") final LocalDate dataLimite
+    ) {
+        Date dataInicioDate = Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date dataLimiteDate = Date.from(dataLimite.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(dataInicioDate);
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(dataLimiteDate);
+
+        List<Integer> quantidadeMensalLista = new ArrayList<>();
+
+        while (startCal.before(endCal)) {
+            Calendar monthStart = (Calendar) startCal.clone();
+            monthStart.set(Calendar.DAY_OF_MONTH, 1);
+
+            Calendar monthEnd = (Calendar) startCal.clone();
+            monthEnd.set(Calendar.DAY_OF_MONTH, monthEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (monthEnd.after(endCal)) {
+                monthEnd.setTime(dataLimiteDate);
+            }
+
+            Integer quantidadeProdutos = registroService.getRegistroEntradaQuarentena(
+                    monthStart.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate(),
+                    monthEnd.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+            );
+            quantidadeMensalLista.add(quantidadeProdutos);
+            // Move para o próximo mês
+            startCal.add(Calendar.MONTH, 1);
+        }
+        return ResponseEntity.ok(quantidadeMensalLista);
+    }
+
+    @GetMapping("/quarentena/saida/periodo/{dataInicio}/{dataLimite}")
+    public ResponseEntity<List<Integer>>
+    getSaidaQuarentenaPeriodoEntreDatas(
+            @PathVariable(name = "dataInicio") final LocalDate dataInicio,
+            @PathVariable(name = "dataLimite") final LocalDate dataLimite
+    ) {
+        Date dataInicioDate = Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date dataLimiteDate = Date.from(dataLimite.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(dataInicioDate);
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(dataLimiteDate);
+
+        List<Integer> quantidadeMensalLista = new ArrayList<>();
+
+        while (startCal.before(endCal)) {
+            Calendar monthStart = (Calendar) startCal.clone();
+            monthStart.set(Calendar.DAY_OF_MONTH, 1);
+
+            Calendar monthEnd = (Calendar) startCal.clone();
+            monthEnd.set(Calendar.DAY_OF_MONTH, monthEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (monthEnd.after(endCal)) {
+                monthEnd.setTime(dataLimiteDate);
+            }
+
+            Integer quantidadeProdutos = registroService.getRegistroSaidaQuarentena(
+                    monthStart.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate(),
+                    monthEnd.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+            );
+            quantidadeMensalLista.add(quantidadeProdutos);
+            // Move para o próximo mês
+            startCal.add(Calendar.MONTH, 1);
+        }
+        return ResponseEntity.ok(quantidadeMensalLista);
+    }
+
+    @GetMapping("/quantidade/entrada/periodo/{dataInicio}/{dataLimite}")
+    public ResponseEntity<List<Integer>>
+    getEntradaQuantidadePeriodoEntreDatas(
+            @PathVariable(name = "dataInicio") final LocalDate dataInicio,
+            @PathVariable(name = "dataLimite") final LocalDate dataLimite
+    ) {
+        Date dataInicioDate = Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date dataLimiteDate = Date.from(dataLimite.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(dataInicioDate);
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(dataLimiteDate);
+
+        List<Integer> quantidadeMensalLista = new ArrayList<>();
+
+        while (startCal.before(endCal)) {
+            Calendar monthStart = (Calendar) startCal.clone();
+            monthStart.set(Calendar.DAY_OF_MONTH, 1);
+
+            Calendar monthEnd = (Calendar) startCal.clone();
+            monthEnd.set(Calendar.DAY_OF_MONTH, monthEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (monthEnd.after(endCal)) {
+                monthEnd.setTime(dataLimiteDate);
+            }
+
+            Integer quantidadeProdutos = registroService.getRegistroEntradaQuantidade(
+                    monthStart.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate(),
+                    monthEnd.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+            );
+            quantidadeMensalLista.add(quantidadeProdutos);
+            // Move para o próximo mês
+            startCal.add(Calendar.MONTH, 1);
+        }
+        return ResponseEntity.ok(quantidadeMensalLista);
+    }
+
+    @GetMapping("/quantidade/saida/periodo/{dataInicio}/{dataLimite}")
+    public ResponseEntity<List<Integer>>
+    getSaidaQuantidadePeriodoEntreDatas(
+            @PathVariable(name = "dataInicio") final LocalDate dataInicio,
+            @PathVariable(name = "dataLimite") final LocalDate dataLimite
+    ) {
+        Date dataInicioDate = Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date dataLimiteDate = Date.from(dataLimite.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(dataInicioDate);
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(dataLimiteDate);
+
+        List<Integer> quantidadeMensalLista = new ArrayList<>();
+
+        while (startCal.before(endCal)) {
+            Calendar monthStart = (Calendar) startCal.clone();
+            monthStart.set(Calendar.DAY_OF_MONTH, 1);
+
+            Calendar monthEnd = (Calendar) startCal.clone();
+            monthEnd.set(Calendar.DAY_OF_MONTH, monthEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (monthEnd.after(endCal)) {
+                monthEnd.setTime(dataLimiteDate);
+            }
+
+            Integer quantidadeProdutos = registroService.getRegistroSaidaQuantidade(
+                    monthStart.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate(),
+                    monthEnd.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+            );
+            quantidadeMensalLista.add(quantidadeProdutos);
+            // Move para o próximo mês
+            startCal.add(Calendar.MONTH, 1);
+        }
+        return ResponseEntity.ok(quantidadeMensalLista);
     }
 
     @PostMapping
