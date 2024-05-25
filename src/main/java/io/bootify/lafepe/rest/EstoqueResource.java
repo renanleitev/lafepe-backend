@@ -60,6 +60,16 @@ public class EstoqueResource {
         return ResponseEntity.ok(estoqueService.getEstoqueByValidadePeriodo(periodo));
     }
 
+    @GetMapping("/validade/prejuizo/saldoAtual")
+    public ResponseEntity<Double> getEstoqueByPrejuizoSaldoAtual() {
+        return ResponseEntity.ok(estoqueService.getEstoquePrejuizoSaldoAtual());
+    }
+
+    @GetMapping("/validade/prejuizo/saldoOriginal")
+    public ResponseEntity<Double> getEstoqueByPrejuizoSaldoOriginal() {
+        return ResponseEntity.ok(estoqueService.getEstoquePrejuizoSaldoOriginal());
+    }
+
     // GET estoque by query
     @GetMapping("/query")
     public ResponseEntity<List<EstoqueDTO>> getEstoqueByQuery(@RequestParam Map<String, String> customQuery){

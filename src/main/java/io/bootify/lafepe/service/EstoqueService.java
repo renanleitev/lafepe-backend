@@ -262,6 +262,26 @@ public class EstoqueService {
                 .toList();
     }
 
+    public Double getEstoquePrejuizoSaldoAtual() {
+        final List<Estoque> estoquesVencidos = estoqueRepository.findAllByValidadeVencidos();
+        Double prejuizoFinal = 0.0;
+        for (Estoque estoque : estoquesVencidos) {
+            Double prejuizo = estoque.getSaldoAtual() * estoque.getProduto().getPrecoUnitario();
+            prejuizoFinal += prejuizo;
+        }
+        return prejuizoFinal;
+    }
+
+    public Double getEstoquePrejuizoSaldoOriginal() {
+        final List<Estoque> estoquesVencidos = estoqueRepository.findAllByValidadeVencidos();
+        Double prejuizoFinal = 0.0;
+        for (Estoque estoque : estoquesVencidos) {
+            Double prejuizo = estoque.getSaldoOriginal() * estoque.getProduto().getPrecoUnitario();
+            prejuizoFinal += prejuizo;
+        }
+        return prejuizoFinal;
+    }
+
     public Long create(final EstoqueDTO estoqueDTO) {
         final Estoque estoque = new Estoque();
         mapToEntity(estoqueDTO, estoque);
