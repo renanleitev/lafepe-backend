@@ -105,16 +105,16 @@ public class LafepeApplication implements CommandLineRunner {
         };
 
         Integer[] quantidadeLista = {
-                464400,
-                5350,
-                6241927,
-                682819,
-                19061317,
-                4000000,
-                1250000,
-                765764,
-                3403734,
-                6789968,
+                464,
+                535,
+                624,
+                688,
+                190,
+                400,
+                125,
+                765,
+                340,
+                678,
         };
 
         String[] unidadeLista = {
@@ -131,16 +131,16 @@ public class LafepeApplication implements CommandLineRunner {
         };
 
         Integer[] quarentenaLista = {
-                4644,
+                464,
                 53,
                 624,
                 682,
-                1906,
+                190,
                 400,
                 125,
-                7657,
-                3403,
-                6789,
+                765,
+                340,
+                678,
         };
 
         LocalDate[] validadeLista = {
@@ -172,29 +172,29 @@ public class LafepeApplication implements CommandLineRunner {
         // Registro
 
         Integer[] entradaLista = {
-                46400,
+                464,
                 530,
-                62427,
-                6819,
-                190617,
+                624,
+                681,
+                190,
                 123,
-                5217,
-                7657,
-                3403,
-                67899,
+                521,
+                765,
+                340,
+                678,
         };
 
         Integer[] saidaLista = {
-                564479,
-                45350,
-                927653,
-                82819,
-                9061317,
-                400000,
-                1750000,
-                75764,
-                343734,
-                679968,
+                564,
+                453,
+                927,
+                828,
+                906,
+                400,
+                175,
+                757,
+                343,
+                679,
         };
 
         Integer[] saldoLista = new Integer[10];

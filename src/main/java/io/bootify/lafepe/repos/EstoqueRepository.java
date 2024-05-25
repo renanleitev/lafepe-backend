@@ -130,6 +130,10 @@ public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
     @Query("SELECT p FROM Estoque p WHERE p.validade BETWEEN CURRENT_DATE AND :dataLimite")
     List<Estoque> findAllByValidadePeriodo(@Param("dataLimite") LocalDate dataLimite);
 
+    // Validade por mes
+    @Query("SELECT p FROM Estoque p WHERE p.validade BETWEEN :dataInicio AND :dataLimite")
+    List<Estoque> findAllByValidadeEntreDatas(@Param("dataInicio") LocalDate dataInicio, @Param("dataLimite") LocalDate dataLimite);
+
     // Estoque
     @Query("SELECT p FROM Estoque p WHERE p.descricao LIKE CONCAT('%',:descricao,'%')")
     List<Estoque> findAllByDescricaoLike(@Param("descricao") String descricao);

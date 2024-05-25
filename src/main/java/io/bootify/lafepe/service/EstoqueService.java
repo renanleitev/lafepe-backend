@@ -12,6 +12,8 @@ import io.bootify.lafepe.util.ReferencedWarning;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -280,6 +282,21 @@ public class EstoqueService {
             prejuizoFinal += prejuizo;
         }
         return prejuizoFinal;
+    }
+
+    public Double getEstoquePrejuizoValidadeEntreDatas(LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Estoque> estoquesVencidos = estoqueRepository.findAllByValidadeEntreDatas(dataInicio, dataLimite);
+        Double prejuizoFinal = 0.0;
+        for (Estoque estoque : estoquesVencidos) {
+            Double prejuizo = estoque.getSaldoAtual() * estoque.getProduto().getPrecoUnitario();
+            prejuizoFinal += prejuizo;
+        }
+        return prejuizoFinal;
+    }
+
+    public Integer getEstoqueQuantidadeValidadeEntreDatas(LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Estoque> estoquesVencidos = estoqueRepository.findAllByValidadeEntreDatas(dataInicio, dataLimite);
+        return estoquesVencidos.size();
     }
 
     public Long create(final EstoqueDTO estoqueDTO) {

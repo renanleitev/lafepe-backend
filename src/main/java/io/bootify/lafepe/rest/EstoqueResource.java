@@ -9,9 +9,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,6 +58,99 @@ public class EstoqueResource {
     @GetMapping("/validade/{periodo}")
     public ResponseEntity<List<EstoqueDTO>> getEstoqueByValidadePeriodo(@PathVariable(name = "periodo") final Integer periodo) {
         return ResponseEntity.ok(estoqueService.getEstoqueByValidadePeriodo(periodo));
+    }
+
+    @GetMapping("/validade/prejuizo/{dataInicio}/{dataLimite}")
+    public ResponseEntity<Double>
+        getEstoqueByPrejuizoValidadePeriodoEntreDatas(
+                @PathVariable(name = "dataInicio") final LocalDate dataInicio,
+                @PathVariable(name = "dataLimite") final LocalDate dataLimite
+                ) {
+        return ResponseEntity.ok(estoqueService.getEstoquePrejuizoValidadeEntreDatas(dataInicio, dataLimite));
+    }
+
+    @GetMapping("/validade/prejuizo/periodo/{dataInicio}/{dataLimite}")
+    public ResponseEntity<List<Double>>
+    getEstoqueByPrejuizoValidadePeriodoMeses(
+            @PathVariable(name = "dataInicio") final LocalDate dataInicio,
+            @PathVariable(name = "dataLimite") final LocalDate dataLimite
+    ) {
+        Date dataInicioDate = Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date dataLimiteDate = Date.from(dataLimite.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(dataInicioDate);
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(dataLimiteDate);
+
+        List<Double> prejuizoMensalLista = new ArrayList<>();
+
+        while (startCal.before(endCal)) {
+            Calendar monthStart = (Calendar) startCal.clone();
+            monthStart.set(Calendar.DAY_OF_MONTH, 1);
+
+            Calendar monthEnd = (Calendar) startCal.clone();
+            monthEnd.set(Calendar.DAY_OF_MONTH, monthEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (monthEnd.after(endCal)) {
+                monthEnd.setTime(dataLimiteDate);
+            }
+
+            Double prejuizoMensal = estoqueService.getEstoquePrejuizoValidadeEntreDatas(
+                    monthStart.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate(),
+                    monthEnd.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+            );
+            prejuizoMensalLista.add(prejuizoMensal);
+            // Move para o próximo mês
+            startCal.add(Calendar.MONTH, 1);
+        }
+        return ResponseEntity.ok(prejuizoMensalLista);
+    }
+
+    @GetMapping("/validade/quantidade/periodo/{dataInicio}/{dataLimite}")
+    public ResponseEntity<List<Integer>>
+    getEstoqueByPrejuizoQuantidadePeriodoMeses(
+            @PathVariable(name = "dataInicio") final LocalDate dataInicio,
+            @PathVariable(name = "dataLimite") final LocalDate dataLimite
+    ) {
+        Date dataInicioDate = Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date dataLimiteDate = Date.from(dataLimite.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(dataInicioDate);
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(dataLimiteDate);
+
+        List<Integer> quantidadeMensalLista = new ArrayList<>();
+
+        while (startCal.before(endCal)) {
+            Calendar monthStart = (Calendar) startCal.clone();
+            monthStart.set(Calendar.DAY_OF_MONTH, 1);
+
+            Calendar monthEnd = (Calendar) startCal.clone();
+            monthEnd.set(Calendar.DAY_OF_MONTH, monthEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (monthEnd.after(endCal)) {
+                monthEnd.setTime(dataLimiteDate);
+            }
+
+            Integer quantidadeProdutos = estoqueService.getEstoqueQuantidadeValidadeEntreDatas(
+                    monthStart.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate(),
+                    monthEnd.getTime().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+            );
+            quantidadeMensalLista.add(quantidadeProdutos);
+            // Move para o próximo mês
+            startCal.add(Calendar.MONTH, 1);
+        }
+        return ResponseEntity.ok(quantidadeMensalLista);
     }
 
     @GetMapping("/validade/prejuizo/saldoAtual")
