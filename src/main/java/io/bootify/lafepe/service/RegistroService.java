@@ -123,10 +123,55 @@ public class RegistroService {
         final List<Registro> registrosList = registroRepository.findAllByDataEntreDatas(dataInicio, dataLimite);
         Integer totalSaidaQuantidade = 0;
         for (Registro registro : registrosList) {
-            Integer saodaQuantidade = registro.getSaidaQuantidade();
-            totalSaidaQuantidade += saodaQuantidade;
+            Integer saidaQuantidade = registro.getSaidaQuantidade();
+            totalSaidaQuantidade += saidaQuantidade;
         }
         return totalSaidaQuantidade;
+    }
+
+    public Integer getRegistroByLoteEntradaQuantidadeEntreDatas(String lote, LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Registro> registrosList = registroRepository
+                .findRegistroByLoteAndDataEntreDatas(lote, dataInicio, dataLimite);
+        Integer totalEntradaQuantidade = 0;
+        for (Registro registro : registrosList) {
+            Integer entradaQuantidade = registro.getEntradaQuantidade();
+            totalEntradaQuantidade += entradaQuantidade;
+        }
+        return totalEntradaQuantidade;
+    }
+
+    public Integer getRegistroByLoteSaidaQuantidadeEntreDatas(String lote, LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Registro> registrosList = registroRepository
+                .findRegistroByLoteAndDataEntreDatas(lote, dataInicio, dataLimite);
+        Integer totalSaidaQuantidade = 0;
+        for (Registro registro : registrosList) {
+            Integer saidaQuantidade = registro.getSaidaQuantidade();
+            totalSaidaQuantidade += saidaQuantidade;
+        }
+        return totalSaidaQuantidade;
+    }
+
+
+    public Integer getRegistroByLoteEntradaQuarentenaEntreDatas(String lote, LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Registro> registrosList = registroRepository
+                .findRegistroByLoteAndDataEntreDatas(lote, dataInicio, dataLimite);
+        Integer totalEntradaQuarentena = 0;
+        for (Registro registro : registrosList) {
+            Integer entradaQuarentena = registro.getEntradaQuarentena();
+            totalEntradaQuarentena += entradaQuarentena;
+        }
+        return totalEntradaQuarentena;
+    }
+
+    public Integer getRegistroByLoteSaidaQuarentenaEntreDatas(String lote, LocalDate dataInicio, LocalDate dataLimite) {
+        final List<Registro> registrosList = registroRepository
+                .findRegistroByLoteAndDataEntreDatas(lote, dataInicio, dataLimite);
+        Integer totalSaidaQuarentena = 0;
+        for (Registro registro : registrosList) {
+            Integer saidaQuarentena = registro.getSaidaQuarentena();
+            totalSaidaQuarentena += saidaQuarentena;
+        }
+        return totalSaidaQuarentena;
     }
 
     public Long create(final RegistroDTO registroDTO) {

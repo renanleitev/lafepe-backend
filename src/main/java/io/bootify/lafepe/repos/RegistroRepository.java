@@ -40,4 +40,12 @@ public interface RegistroRepository extends JpaRepository<Registro, Long> {
     // Registro entre datas
     @Query("SELECT p FROM Registro p WHERE p.data BETWEEN :dataInicio AND :dataLimite")
     List<Registro> findAllByDataEntreDatas(@Param("dataInicio") LocalDate dataInicio, @Param("dataLimite") LocalDate dataLimite);
+
+    // Registro especifico por lote entre datas
+    @Query("SELECT p FROM Registro p WHERE p.estoque.lote = :lote AND p.data BETWEEN :dataInicio AND :dataLimite")
+    List<Registro> findRegistroByLoteAndDataEntreDatas(
+            @Param("lote") String lote,
+            @Param("dataInicio") LocalDate dataInicio,
+            @Param("dataLimite") LocalDate dataLimite
+    );
 }
