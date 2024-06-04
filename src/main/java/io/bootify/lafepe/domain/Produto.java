@@ -30,10 +30,10 @@ public class Produto {
     private String nome;
 
     @Column(nullable = false)
-    private String fabricante;
+    private Double precoUnitario;
 
     @Column(nullable = false)
-    private Double precoUnitario;
+    private String descricao;
 
     // Passar o JsonBackReference se quiser receber o objeto completo na resposta da API
     @OneToMany(mappedBy = "produto")

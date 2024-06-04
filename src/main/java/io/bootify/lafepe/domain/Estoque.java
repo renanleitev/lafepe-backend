@@ -53,9 +53,6 @@ public class Estoque {
     @Column(nullable = false)
     private LocalDate validade;
 
-    @Column(length = 500)
-    private String descricao;
-
     // ManyToOne = Passar o FetchType.EAGER se quiser receber o objeto completo na resposta da API
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "produto_id")

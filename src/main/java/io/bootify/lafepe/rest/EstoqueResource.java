@@ -224,11 +224,6 @@ public class EstoqueResource {
                 List<EstoqueDTO> estoqueDTOList = estoqueService.getEstoqueByLoteLike(lote);
                 return ResponseEntity.ok(estoqueDTOList);
             }
-            case "[descricao]" -> {
-                String descricao = customQuery.get("descricao");
-                List<EstoqueDTO> estoqueDTOList = estoqueService.getEstoqueByDescricaoLike(descricao);
-                return ResponseEntity.ok(estoqueDTOList);
-            }
             case "[unidade]" -> {
                 String unidade = customQuery.get("unidade");
                 List<EstoqueDTO> estoqueDTOList = estoqueService.getEstoqueByUnidadeLike(unidade);

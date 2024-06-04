@@ -21,8 +21,8 @@ public class ProdutoDTO {
     private String nome;
 
     @NotNull
-    @Size(max = 255)
-    private String fabricante;
+    @Size(max = 500)
+    private String descricao;
 
     @NotNull
     private Double precoUnitario;

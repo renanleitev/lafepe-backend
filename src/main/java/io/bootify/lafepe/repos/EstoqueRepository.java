@@ -133,8 +133,5 @@ public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
     // Validade entre datas
     @Query("SELECT p FROM Estoque p WHERE p.validade BETWEEN :dataInicio AND :dataLimite")
     List<Estoque> findAllByValidadeEntreDatas(@Param("dataInicio") LocalDate dataInicio, @Param("dataLimite") LocalDate dataLimite);
-
-    // Estoque
-    @Query("SELECT p FROM Estoque p WHERE p.descricao LIKE CONCAT('%',:descricao,'%')")
-    List<Estoque> findAllByDescricaoLike(@Param("descricao") String descricao);
+    
 }

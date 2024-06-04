@@ -200,7 +200,7 @@ public class LafepeApplication implements CommandLineRunner {
         Integer[] saldoLista = new Integer[10];
 
         for(int i = 0; i < quantidadeLista.length; i++) {
-            saldoLista[i] = quantidadeLista[i] + quarentenaLista[i];
+            saldoLista[i] = (quantidadeLista[i] * 2) + quarentenaLista[i];
         }
 
         LocalDate[] dataLista = {
@@ -222,31 +222,26 @@ public class LafepeApplication implements CommandLineRunner {
                 Produto produto = new Produto();
                 produto.setCodigo(codigoLista[i]);
                 produto.setNome(nomeLista[i]);
-                produto.setFabricante(fabricanteLista[i]);
+                produto.setDescricao(descricaoLista[i]);
                 produto.setPrecoUnitario(precoUnitarioLista[i]);
                 databaseProduto.save(produto);
                 // Estoque
                 Estoque estoque = new Estoque();
                 estoque.setLote(loteLista[i]);
-                estoque.setQuantidade(quantidadeLista[i]);
+                estoque.setQuantidade(quantidadeLista[i] * 2);
                 estoque.setUnidade(unidadeLista[i]);
                 estoque.setQuarentena(quarentenaLista[i]);
                 estoque.setSaldoOriginal(saldoLista[i]);
                 estoque.setSaldoAtual(saldoLista[i]);
                 estoque.setValidade(validadeLista[i]);
-                estoque.setDescricao(descricaoLista[i]);
                 estoque.setProduto(produto);
                 databaseEstoque.save(estoque);
                 // Registro
                 Registro registro = new Registro();
-                registro.setEntradaQuarentena(entradaLista[i]);
-                registro.setSaidaQuarentena(saidaLista[i]);
-                registro.setEntradaQuantidade(entradaLista[i]);
-                registro.setSaidaQuantidade(saidaLista[i]);
-                registro.setSaldoQuarentenaInicial(quarentenaLista[i]);
-                registro.setSaldoQuarentenaFinal((quarentenaLista[i] + entradaLista[i]) - saidaLista[i]);
-                registro.setSaldoQuantidadeInicial(quantidadeLista[i]);
-                registro.setSaldoQuantidadeFinal((quantidadeLista[i] + entradaLista[i]) - saidaLista[i]);
+                registro.setEntrada(entradaLista[i]);
+                registro.setSaida(saidaLista[i]);
+                registro.setSaldoInicial(quarentenaLista[i]);
+                registro.setSaldoFinal((quarentenaLista[i] + entradaLista[i]) - saidaLista[i]);
                 registro.setData(dataLista[i]);
                 registro.setEstoque(estoque);
                 databaseRegistro.save(registro);

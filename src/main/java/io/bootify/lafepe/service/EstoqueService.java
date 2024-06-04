@@ -250,13 +250,6 @@ public class EstoqueService {
                 .toList();
     }
 
-    public List<EstoqueDTO> getEstoqueByDescricaoLike(final String descricao) {
-        final List<Estoque> estoques = estoqueRepository.findAllByDescricaoLike(descricao);
-        return estoques.stream()
-                .map(estoque -> mapToDTO(estoque, new EstoqueDTO()))
-                .toList();
-    }
-
     public List<EstoqueDTO> getEstoqueByProdutoId(final Long produtoId) {
         final List<Estoque> estoques = estoqueRepository.findAllByProdutoId(produtoId);
         return estoques.stream()
@@ -325,7 +318,6 @@ public class EstoqueService {
         estoqueDTO.setSaldoAtual(estoque.getSaldoAtual());
         estoqueDTO.setSaldoOriginal(estoque.getSaldoOriginal());
         estoqueDTO.setValidade(estoque.getValidade());
-        estoqueDTO.setDescricao(estoque.getDescricao());
         estoqueDTO.setProdutoId(estoque.getProduto() == null ? null : estoque.getProduto().getId());
         estoqueDTO.setProduto(estoque.getProduto());
         return estoqueDTO;
@@ -339,7 +331,6 @@ public class EstoqueService {
         estoque.setSaldoAtual(estoqueDTO.getSaldoAtual());
         estoque.setSaldoOriginal(estoqueDTO.getSaldoOriginal());
         estoque.setValidade(estoqueDTO.getValidade());
-        estoque.setDescricao(estoqueDTO.getDescricao());
         final Produto produto = estoqueDTO.getProduto() == null ? null : produtoRepository.findById(estoqueDTO.getProdutoId())
                 .orElseThrow(() -> new NotFoundException("produto not found"));
         estoque.setProduto(produto);

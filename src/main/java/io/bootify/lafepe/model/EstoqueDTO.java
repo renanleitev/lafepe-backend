@@ -38,9 +38,6 @@ public class EstoqueDTO {
     @NotNull
     private LocalDate validade;
 
-    @Size(max = 500)
-    private String descricao;
-
     private Long produtoId;
 
     private Produto produto;

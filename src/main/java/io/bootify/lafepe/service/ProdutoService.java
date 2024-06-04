@@ -2,6 +2,7 @@ package io.bootify.lafepe.service;
 
 import io.bootify.lafepe.domain.Estoque;
 import io.bootify.lafepe.domain.Produto;
+import io.bootify.lafepe.model.EstoqueDTO;
 import io.bootify.lafepe.model.ProdutoDTO;
 import io.bootify.lafepe.repos.EstoqueRepository;
 import io.bootify.lafepe.repos.ProdutoRepository;
@@ -51,13 +52,6 @@ public class ProdutoService {
                 .toList();
     }
 
-    public List<ProdutoDTO> getProdutoByFabricanteLike(final String fabricante) {
-        final List<Produto> produtos = produtoRepository.findAllByFabricanteLike(fabricante);
-        return produtos.stream()
-                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
-                .toList();
-    }
-
     public List<ProdutoDTO> getProdutoByPrecoUnitario(final Double precoUnitario) {
         final List<Produto> produtos = produtoRepository.findAllByPrecoUnitario(precoUnitario);
         return produtos.stream()
@@ -93,6 +87,13 @@ public class ProdutoService {
                 .toList();
     }
 
+    public List<ProdutoDTO> getProdutoByDescricaoLike(final String descricao) {
+        final List<Produto> produtos = produtoRepository.findAllByDescricaoLike(descricao);
+        return produtos.stream()
+                .map(produto -> mapToDTO(produto, new ProdutoDTO()))
+                .toList();
+    }
+
     public Long create(final ProdutoDTO produtoDTO) {
         final Produto produto = new Produto();
         mapToEntity(produtoDTO, produto);
@@ -114,7 +115,7 @@ public class ProdutoService {
         produtoDTO.setId(produto.getId());
         produtoDTO.setCodigo(produto.getCodigo());
         produtoDTO.setNome(produto.getNome());
-        produtoDTO.setFabricante(produto.getFabricante());
+        produtoDTO.setDescricao(produto.getDescricao());
         produtoDTO.setPrecoUnitario(produto.getPrecoUnitario());
         return produtoDTO;
     }
@@ -122,7 +123,7 @@ public class ProdutoService {
     private Produto mapToEntity(final ProdutoDTO produtoDTO, final Produto produto) {
         produto.setCodigo(produtoDTO.getCodigo());
         produto.setNome(produtoDTO.getNome());
-        produto.setFabricante(produtoDTO.getFabricante());
+        produto.setDescricao(produtoDTO.getDescricao());
         produto.setPrecoUnitario(produtoDTO.getPrecoUnitario());
         return produto;
     }

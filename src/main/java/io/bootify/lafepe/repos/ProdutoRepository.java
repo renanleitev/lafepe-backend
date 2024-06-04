@@ -1,5 +1,6 @@
 package io.bootify.lafepe.repos;
 
+import io.bootify.lafepe.domain.Estoque;
 import io.bootify.lafepe.domain.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,10 +21,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p FROM Produto p WHERE p.codigo LIKE CONCAT('%',:codigo,'%')")
     List<Produto> findAllByCodigoLike(@Param("codigo") String codigo);
 
-    // Fabricante
-    @Query("SELECT p FROM Produto p WHERE p.fabricante LIKE CONCAT('%',:fabricante,'%')")
-    List<Produto> findAllByFabricanteLike(@Param("fabricante") String fabricante);
-
     // Preço exato
     List<Produto> findAllByPrecoUnitario(Double precoUnitario);
 
@@ -42,4 +39,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     // Preço maior ou igual
     @Query("SELECT p FROM Produto p WHERE p.precoUnitario >= :precoUnitario")
     List<Produto> findAllByPrecoUnitarioGreaterThanOrEqualTo(@Param("precoUnitario") Double precoUnitario);
+
+    // Descrição
+    @Query("SELECT p FROM Produto p WHERE p.descricao LIKE CONCAT('%',:descricao,'%')")
+    List<Produto> findAllByDescricaoLike(@Param("descricao") String descricao);
 }

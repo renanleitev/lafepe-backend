@@ -69,9 +69,9 @@ public class ProdutoResource {
                 List<ProdutoDTO> produtoDTOList = produtoService.getProdutoByCodigoLike(codigo);
                 return ResponseEntity.ok(produtoDTOList);
             }
-            case "[fabricante]" -> {
-                String fabricante = customQuery.get("fabricante");
-                List<ProdutoDTO> produtoDTOList = produtoService.getProdutoByFabricanteLike(fabricante);
+            case "[descricao]" -> {
+                String descricao = customQuery.get("descricao");
+                List<ProdutoDTO> produtoDTOList = produtoService.getProdutoByDescricaoLike(descricao);
                 return ResponseEntity.ok(produtoDTOList);
             }
             default -> { return ResponseEntity.ok(produtoService.findAll()); }

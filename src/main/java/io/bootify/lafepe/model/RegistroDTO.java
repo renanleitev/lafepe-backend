@@ -15,24 +15,14 @@ public class RegistroDTO {
     private Long id;
 
     @NotNull
-    private Integer entradaQuarentena;
+    private Integer entrada;
 
     @NotNull
-    private Integer saidaQuarentena;
+    private Integer saida;
 
-    @NotNull
-    private Integer entradaQuantidade;
+    private Integer saldoInicial;
 
-    @NotNull
-    private Integer saidaQuantidade;
-
-    private Integer saldoQuarentenaInicial;
-
-    private Integer saldoQuarentenaFinal;
-
-    private Integer saldoQuantidadeInicial;
-
-    private Integer saldoQuantidadeFinal;
+    private Integer saldoFinal;
 
     @NotNull
     private LocalDate data;

@@ -89,89 +89,46 @@ public class RegistroService {
                 .toList();
     }
 
-    public Integer getRegistroEntradaQuarentena(LocalDate dataInicio, LocalDate dataLimite) {
+    public Integer getRegistroEntrada(LocalDate dataInicio, LocalDate dataLimite) {
         final List<Registro> registrosList = registroRepository.findAllByDataEntreDatas(dataInicio, dataLimite);
-        Integer totalEntradaQuarentena = 0;
+        Integer totalEntrada = 0;
         for (Registro registro : registrosList) {
-            Integer entradaQuarentena = registro.getEntradaQuarentena();
-            totalEntradaQuarentena += entradaQuarentena;
+            Integer entrada = registro.getEntrada();
+            totalEntrada += entrada;
         }
-        return totalEntradaQuarentena;
+        return totalEntrada;
     }
 
-    public Integer getRegistroSaidaQuarentena(LocalDate dataInicio, LocalDate dataLimite) {
+    public Integer getRegistroSaida(LocalDate dataInicio, LocalDate dataLimite) {
         final List<Registro> registrosList = registroRepository.findAllByDataEntreDatas(dataInicio, dataLimite);
-        Integer totalSaidaQuarentena = 0;
+        Integer totalSaida = 0;
         for (Registro registro : registrosList) {
-            Integer saidaQuarentena = registro.getSaidaQuarentena();
-            totalSaidaQuarentena += saidaQuarentena;
+            Integer saida= registro.getSaida();
+            totalSaida += saida;
         }
-        return totalSaidaQuarentena;
-    }
-
-    public Integer getRegistroEntradaQuantidade(LocalDate dataInicio, LocalDate dataLimite) {
-        final List<Registro> registrosList = registroRepository.findAllByDataEntreDatas(dataInicio, dataLimite);
-        Integer totalEntradaQuantidade = 0;
-        for (Registro registro : registrosList) {
-            Integer entradaQuantidade = registro.getEntradaQuantidade();
-            totalEntradaQuantidade += entradaQuantidade;
-        }
-        return totalEntradaQuantidade;
-    }
-
-    public Integer getRegistroSaidaQuantidade(LocalDate dataInicio, LocalDate dataLimite) {
-        final List<Registro> registrosList = registroRepository.findAllByDataEntreDatas(dataInicio, dataLimite);
-        Integer totalSaidaQuantidade = 0;
-        for (Registro registro : registrosList) {
-            Integer saidaQuantidade = registro.getSaidaQuantidade();
-            totalSaidaQuantidade += saidaQuantidade;
-        }
-        return totalSaidaQuantidade;
+        return totalSaida;
     }
 
     public Integer getRegistroByLoteEntradaQuantidadeEntreDatas(String lote, LocalDate dataInicio, LocalDate dataLimite) {
         final List<Registro> registrosList = registroRepository
                 .findRegistroByLoteAndDataEntreDatas(lote, dataInicio, dataLimite);
-        Integer totalEntradaQuantidade = 0;
+        Integer totalEntrada = 0;
         for (Registro registro : registrosList) {
-            Integer entradaQuantidade = registro.getEntradaQuantidade();
-            totalEntradaQuantidade += entradaQuantidade;
+            Integer entrada = registro.getEntrada();
+            totalEntrada += entrada;
         }
-        return totalEntradaQuantidade;
+        return totalEntrada;
     }
 
     public Integer getRegistroByLoteSaidaQuantidadeEntreDatas(String lote, LocalDate dataInicio, LocalDate dataLimite) {
         final List<Registro> registrosList = registroRepository
                 .findRegistroByLoteAndDataEntreDatas(lote, dataInicio, dataLimite);
-        Integer totalSaidaQuantidade = 0;
+        Integer totalSaida = 0;
         for (Registro registro : registrosList) {
-            Integer saidaQuantidade = registro.getSaidaQuantidade();
-            totalSaidaQuantidade += saidaQuantidade;
+            Integer saida = registro.getSaida();
+            totalSaida += saida;
         }
-        return totalSaidaQuantidade;
-    }
-
-
-    public Integer getRegistroByLoteEntradaQuarentenaEntreDatas(String lote, LocalDate dataInicio, LocalDate dataLimite) {
-        final List<Registro> registrosList = registroRepository
-                .findRegistroByLoteAndDataEntreDatas(lote, dataInicio, dataLimite);
-        Integer totalEntradaQuarentena = 0;
-        for (Registro registro : registrosList) {
-            Integer entradaQuarentena = registro.getEntradaQuarentena();
-            totalEntradaQuarentena += entradaQuarentena;
-        }
-        return totalEntradaQuarentena;
-    }
-
-    public Integer getRegistroByLoteSaidaQuarentenaEntreDatas(String lote, LocalDate dataInicio, LocalDate dataLimite) {
-        final List<Registro> registrosList = registroRepository
-                .findRegistroByLoteAndDataEntreDatas(lote, dataInicio, dataLimite);
-        Integer totalSaidaQuarentena = 0;
-        for (Registro registro : registrosList) {
-            Integer saidaQuarentena = registro.getSaidaQuarentena();
-            totalSaidaQuarentena += saidaQuarentena;
-        }
-        return totalSaidaQuarentena;
+        return totalSaida;
     }
 
     public Long create(final RegistroDTO registroDTO) {
@@ -180,17 +137,11 @@ public class RegistroService {
         // Atualiza o saldo após registro
         Estoque estoque = registro.getEstoque();
         Integer quantidadeInicial = estoque.getQuantidade();
-        Integer quantidadeFinal = (quantidadeInicial + registro.getEntradaQuantidade()) - registro.getSaidaQuantidade();
-        Integer quarentenaInicial = estoque.getQuarentena();
-        Integer quarentenaFinal = (quarentenaInicial + registro.getEntradaQuarentena()) - registro.getSaidaQuarentena();
+        Integer quantidadeFinal = (quantidadeInicial + registro.getEntrada()) - registro.getSaida();
         estoque.setQuantidade(quantidadeFinal);
-        estoque.setQuarentena(quarentenaFinal);
-        estoque.setSaldoAtual(quantidadeFinal + quarentenaFinal);
         estoqueRepository.save(estoque);
-        registro.setSaldoQuantidadeInicial(quantidadeInicial);
-        registro.setSaldoQuantidadeFinal(quantidadeFinal);
-        registro.setSaldoQuarentenaInicial(quarentenaInicial);
-        registro.setSaldoQuarentenaFinal(quarentenaFinal);
+        registro.setSaldoInicial(quantidadeInicial);
+        registro.setSaldoFinal(quantidadeFinal);
         return registroRepository.save(registro).getId();
     }
 
@@ -198,25 +149,15 @@ public class RegistroService {
         final Registro registro = registroRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         // Adicionar/remover do saldo apenas o que foi adicionado/removido em excesso
-        Integer entradaQuarentena = registroDTO.getEntradaQuarentena() - registro.getEntradaQuarentena();
-        Integer saidaQuarentena = registroDTO.getSaidaQuarentena() - registro.getSaidaQuarentena();
-        Integer entradaQuantidade = registroDTO.getEntradaQuantidade() - registro.getEntradaQuantidade();
-        Integer saidaQuantidade = registroDTO.getSaidaQuantidade() - registro.getSaidaQuantidade();
+        Integer entrada = registroDTO.getEntrada() - registro.getEntrada();
+        Integer saida = registroDTO.getSaida() - registro.getSaida();
         mapToEntity(registroDTO, registro);
         // Atualiza o saldo após registro
         Estoque estoque = registro.getEstoque();
         Integer quantidadeInicial = estoque.getQuantidade();
-        Integer quantidadeFinal = (quantidadeInicial + entradaQuantidade) - saidaQuantidade;
-        Integer quarentenaInicial = estoque.getQuarentena();
-        Integer quarentenaFinal = (quarentenaInicial + entradaQuarentena) - saidaQuarentena;
+        Integer quantidadeFinal = (quantidadeInicial + entrada) - saida;
         estoque.setQuantidade(quantidadeFinal);
-        estoque.setQuarentena(quarentenaFinal);
-        estoque.setSaldoAtual(quantidadeFinal + quarentenaFinal);
         estoqueRepository.save(estoque);
-        registro.setSaldoQuantidadeInicial(quantidadeInicial);
-        registro.setSaldoQuantidadeFinal(quantidadeFinal);
-        registro.setSaldoQuarentenaInicial(quarentenaInicial);
-        registro.setSaldoQuarentenaFinal(quarentenaFinal);
         registroRepository.save(registro);
     }
 
@@ -226,14 +167,10 @@ public class RegistroService {
 
     private RegistroDTO mapToDTO(final Registro registro, final RegistroDTO registroDTO) {
         registroDTO.setId(registro.getId());
-        registroDTO.setEntradaQuantidade(registro.getEntradaQuantidade());
-        registroDTO.setEntradaQuarentena(registro.getEntradaQuarentena());
-        registroDTO.setSaidaQuantidade(registro.getSaidaQuantidade());
-        registroDTO.setSaidaQuarentena(registro.getSaidaQuarentena());
-        registroDTO.setSaldoQuantidadeInicial(registro.getSaldoQuantidadeInicial());
-        registroDTO.setSaldoQuantidadeFinal(registro.getSaldoQuantidadeFinal());
-        registroDTO.setSaldoQuarentenaInicial(registro.getSaldoQuarentenaInicial());
-        registroDTO.setSaldoQuarentenaFinal(registro.getSaldoQuarentenaFinal());
+        registroDTO.setEntrada(registro.getEntrada());
+        registroDTO.setSaida(registro.getSaida());
+        registroDTO.setSaldoInicial(registro.getSaldoInicial());
+        registroDTO.setSaldoFinal(registro.getSaldoFinal());
         registroDTO.setData(registro.getData());
         registroDTO.setEstoqueId(registro.getEstoque() == null ? null : registro.getEstoque().getId());
         registroDTO.setEstoque(registro.getEstoque());
@@ -242,14 +179,10 @@ public class RegistroService {
 
     private Registro mapToEntity(final RegistroDTO registroDTO, final Registro registro) {
         registro.setId(registroDTO.getId());
-        registro.setEntradaQuantidade(registroDTO.getEntradaQuantidade());
-        registro.setEntradaQuarentena(registroDTO.getEntradaQuarentena());
-        registro.setSaidaQuantidade(registroDTO.getSaidaQuantidade());
-        registro.setSaidaQuarentena(registroDTO.getSaidaQuarentena());
-        registro.setSaldoQuantidadeInicial(registroDTO.getSaldoQuantidadeInicial());
-        registro.setSaldoQuantidadeFinal(registroDTO.getSaldoQuantidadeFinal());
-        registro.setSaldoQuarentenaInicial(registroDTO.getSaldoQuarentenaInicial());
-        registro.setSaldoQuarentenaFinal(registroDTO.getSaldoQuarentenaFinal());
+        registro.setEntrada(registroDTO.getEntrada());
+        registro.setSaida(registroDTO.getSaida());
+        registro.setSaldoInicial(registroDTO.getSaldoInicial());
+        registro.setSaldoFinal(registroDTO.getSaldoFinal());
         registro.setData(registroDTO.getData());
         final Estoque estoque = registroDTO.getEstoque() == null ? null : estoqueRepository.findById(registroDTO.getEstoqueId())
                 .orElseThrow(() -> new NotFoundException("estoqueId not found"));
