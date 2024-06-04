@@ -139,6 +139,7 @@ public class RegistroService {
         Integer quantidadeInicial = estoque.getQuantidade();
         Integer quantidadeFinal = (quantidadeInicial + registro.getEntrada()) - registro.getSaida();
         estoque.setQuantidade(quantidadeFinal);
+        estoque.setSaldoAtual(estoque.getQuantidade() + estoque.getQuarentena());
         estoqueRepository.save(estoque);
         registro.setSaldoInicial(quantidadeInicial);
         registro.setSaldoFinal(quantidadeFinal);
@@ -157,6 +158,7 @@ public class RegistroService {
         Integer quantidadeInicial = estoque.getQuantidade();
         Integer quantidadeFinal = (quantidadeInicial + entrada) - saida;
         estoque.setQuantidade(quantidadeFinal);
+        estoque.setSaldoAtual(estoque.getQuantidade() + estoque.getQuarentena());
         estoqueRepository.save(estoque);
         registroRepository.save(registro);
     }
